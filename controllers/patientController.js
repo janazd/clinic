@@ -1,6 +1,6 @@
 const Patient = require("../models/Patient");
 
-function addPatient(req, res) {
+exports.addPatient = async (req, res) => {
   try {
     const { firstname, lastname, gender, age, phone, medical_history } =
       req.body;
@@ -26,46 +26,84 @@ function addPatient(req, res) {
     console.error(error);
     return res.status(500).json({ message: "Server Error" });
   }
-}
+};
 
-async function getAllPatient(req, res) {
-  const patients = await Patient.find({});
-  res.json(patients);
-}
+exports.getAllPatients = async (req, res) => {
+  try {
+    const patients = await Patient.find();
+    res.json(patients);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
 
-async function getPatientById(req, res) {
-  const user = await Patient.findById(req.params.id);
+exports.getPatientById = async (req, res) => {
+  try {
+    const patient = await Patient.findById(req.params.id);
+    if (!patient) {
+      return res.status(404).json({ message: "Patient not found" });
+    }
+    res.json(patient);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
 
-  if (!Patient) {
-    return res.status(404).json({ message: "Patient not found " });
+exports.createPatient = async (req, res) => {
+  if (!req.body.firstname || !req.body.lastname || !req.body.phone) {
+    return res.status(400).json({ message: "Missing required fields" });
   }
 
-  return res.json(Patient);
-}
+  try {
+    const newPatient = new Patient(req.body);
+    const savedPatient = await newPatient.save();
+    res.status(201).json(savedPatient);
+  } catch (err) {
+    console.error(err);
+    if (err.code && err.code === 11000) {
+      const duplicateField = Object.keys(err.keyValue)[0];
+      return res.status(400).json({ message: `Duplicate ${duplicateField}` });
+    }
+    res.status(500).json({ message: "Server Error" });
+  }
+};
 
-async function deletePatient(req, res) {
-  const patient = await Patient.findById(req.params.id);
+exports.updatePatient = async (req, res) => {
+  const updates = Object.keys(req.body);
+  const allowedUpdates = ["firstname", "lastname", "phone"];
+  const isValidUpdate = updates.every((update) =>
+    allowedUpdates.includes(update)
+  );
 
-  if (!patient) {
-    return res.status(404).json("Patient not found");
+  if (!isValidUpdate) {
+    return res.status(400).json({ message: "Invalid update fields" });
   }
 
-  return res.json({ message: "Patient removed" });
-}
-
-async function UpdatePatient(req, res) {
-  const patient = await Patient.findById(req.params.id);
-
-  if (!patient) {
-    return res.status(404).json({ message: "Patient not found" });
+  try {
+    const patient = await Patient.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
+    if (!patient) {
+      return res.status(404).json({ message: "Patient not found" });
+    }
+    res.json(patient);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server Error" });
   }
+};
 
-  patient.firstname = req.body.firstname || patient.firstname;
-  patient.lastname = req.body.lastname || patient.lastname;
-  patient.phone = req.body.phone || patient.phone;
-  patient.medical_history = req.body.medical_history || patient.medical_history;
-
-  const UpdatePatient = await patient.save();
-
-  res.json({ message: "Patient Updated" });
-}
+exports.deletePatient = async (req, res) => {
+  try {
+    const patient = await Patient.findByIdAndDelete(req.params.id);
+    if (!patient) {
+      return res.status(404).json({ message: "Patient not found" });
+    }
+    res.json({ message: "Patient deleted successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server Error" });
+  }
+};

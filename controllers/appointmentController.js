@@ -20,45 +20,132 @@ async function addAppointment(req, res) {
   await appointment.save();
 }
 
-async function getAllAppointments(req, res) {
-  const appointments = await Appointment.find({});
-  return res.json(appointments);
-}
-
-async function getAppointmentById(req, res) {
-  const appointment = await Appointment.findById(req.params.id);
-
-  if (!appointment) {
-    return res.status(404).json({ message: "Appointment not found" });
+exports.getAllAppointments = async (req, res) => {
+  try {
+    const appointments = await Appointment.find()
+      .populate("pid")
+      .populate("doc_id");
+    res.json(appointments);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server Error" });
   }
+};
 
-  return res.json(appointment);
-
-  async function deleteAppointment(req, res) {
-    const appointment = await Appointment.findById(req.params.id);
-
+exports.getAppointmentById = async (req, res) => {
+  try {
+    const appointment = await Appointment.findById(req.params.id)
+      .populate("pid")
+      .populate("doc_id");
     if (!appointment) {
       return res.status(404).json({ message: "Appointment not found" });
     }
+    res.json(appointment);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
 
-    return res.json({ message: "Appointment Removed" });
+exports.getAppointmentsByDoctor = async (req, res) => {
+  const doctorId = req.params.doctorId;
+
+  try {
+    const appointments = await Appointment.find({ doc_id: doctorId })
+      .populate("pid")
+      .populate("doc_id");
+    if (!appointments.length) {
+      return res
+        .status(404)
+        .json({ message: "No appointments found for this doctor" });
+    }
+    res.json(appointments);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
+exports.getAppointmentsByPatient = async (req, res) => {
+  const patientId = req.params.patientId;
+
+  try {
+    const appointments = await Appointment.find({ pid: patientId })
+      .populate("pid")
+      .populate("doc_id");
+    if (!appointments.length) {
+      return res
+        .status(404)
+        .json({ message: "No appointments found for this patient" });
+    }
+    res.json(appointments);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
+exports.createAppointment = async (req, res) => {
+  if (!req.body.pid || !req.body.doc_id || !req.body.date) {
+    return res.status(400).json({ message: "Missing required fields" });
   }
 
-  async function updateAppointment(req, res) {
-    const appointment = await Appointment.findById(req.params.id);
+  try {
+    const newAppointment = new Appointment(req.body);
+    const savedAppointment = await newAppointment.save();
+    res.status(201).json(savedAppointment);
+  } catch (err) {
+    console.error(err);
+    if (err.name === "MongoError" && err.kind === "ObjectId") {
+      return res
+        .status(400)
+        .json({ message: "Invalid patient or doctor reference" });
+    }
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
+exports.updateAppointment = async (req, res) => {
+  const updates = Object.keys(req.body);
+  const allowedUpdates = ["pid", "doc_id", "date", "reason", "status"];
+  const isValidUpdate = updates.every((update) =>
+    allowedUpdates.includes(update)
+  );
+
+  if (!isValidUpdate) {
+    return res.status(400).json({ message: "Invalid update fields" });
   }
 
-  if (!appointment) {
-    return res.status(404).json({ message: "Appointment not found" });
+  try {
+    const appointment = await Appointment.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+    if (!appointment) {
+      return res.status(404).json({ message: "Appointment not found" });
+    }
+    res.json(appointment);
+  } catch (err) {
+    console.error(err);
+    if (err.name === "MongoError" && err.kind === "ObjectId") {
+      return res
+        .status(400)
+        .json({ message: "Invalid patient or doctor reference" });
+    }
+    res.status(500).json({ message: "Server Error" });
   }
+};
 
-  appointment.firstname = req.body.firstname || appointment.firstname;
-  appointment.lastname = req.body.lastname || appointment.lastname;
-  appointment.email = req.body.email || appointment.email;
-  appointment.password = req.body.password || appointment.password;
-  appointment.schedule = req.body.schedule || appointment.schedule;
-
-  const UpdatedAppointment = await appointment.save();
-
-  res.json({ message: "Appointment updated" });
-}
+exports.deleteAppointment = async (req, res) => {
+  try {
+    const appointment = await Appointment.findByIdAndDelete(req.params.id);
+    if (!appointment) {
+      return res.status(404).json({ message: "Appointment not found" });
+    }
+    res.json({ message: "Appointment deleted successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
