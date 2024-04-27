@@ -21,6 +21,9 @@ const DoctorSchema = new Schema(
       type: String,
       required: true,
     },
+    specialisation: {
+      type: String,
+    },
     schedule: {
       type: Date,
     },

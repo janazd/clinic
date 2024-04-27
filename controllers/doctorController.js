@@ -1,7 +1,8 @@
 const Doctor = require("../models/Doctor");
 
 async function addDoctor(req, res) {
-  const { firstname, lastname, email, password, schedule } = req.body;
+  const { firstname, lastname, email, password, schedule, specialisation } =
+    req.body;
 
   const existingDoctor = await Doctor.findOne({ email });
 
@@ -15,6 +16,7 @@ async function addDoctor(req, res) {
     email,
     password,
     schedule,
+    specialisation,
   });
 
   await doctor.save();

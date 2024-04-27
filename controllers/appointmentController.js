@@ -21,7 +21,7 @@ async function addAppointment(req, res) {
 }
 
 async function getAllAppointments(req, res) {
-  const appointment = await Appointment.find({});
+  const appointments = await Appointment.find({});
   return res.json(appointments);
 }
 

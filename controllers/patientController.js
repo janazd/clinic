@@ -37,7 +37,7 @@ async function getPatientById(req, res) {
   const user = await Patient.findById(req.params.id);
 
   if (!Patient) {
-    return res.status(404).json({ message: "Patient nt found " });
+    return res.status(404).json({ message: "Patient not found " });
   }
 
   return res.json(Patient);
