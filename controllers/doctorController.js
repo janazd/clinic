@@ -22,7 +22,7 @@ async function addDoctor(req, res) {
 
 async function getAllDoctors(req, res) {
     const doctors = await Doctor.find({})
-    res.json(doctors)
+    return res.json(doctors)
 }
 
 async function getDoctorById(req, res) {
