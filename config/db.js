@@ -1,11 +1,19 @@
 const mongoose = require("mongoose");
+require("dotenv").config();
 
-const db = mongoose
-  .connect(
-    "mongodb+srv://janazeindein:Wb82YsG9NhMFaPA9@clinic.c2uvjtv.mongodb.net/"
-  )
-  .then(function () {
-    console.log("mongodb connected");
-  });
+async function dbConnect() {
+  mongoose
+    .connect(process.env.MONGODB_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    })
+    .then(() => {
+      console.log("mongodb connected");
+    })
+    .catch((error) => {
+      console.log("unable to connect");
+      console.error(error);
+    });
+}
 
-module.exports = db;
+module.exports = dbConnect;

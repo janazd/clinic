@@ -1,11 +1,25 @@
-// const mongoose = require("mongoose");
-const db = require("./config/db");
+const express = require("express");
+const cors = require("cors");
+require("dotenv").config();
+const dbConnect = require("./config/db");
 
-// const patientSchema = new mongoose.Schema({
-//   first_name: String,
-//   last_name: String,
-//   date_of_birth: Date,
-//   gender: String,
-//   phone: Number,
-//   medical_history: Text,
-// });
+const doctorRouter = require("./routes/doctorRoutes");
+const patientRouter = require("./routes/patientRouter");
+const appointmentRouter = require("./routes/appointmentRouter");
+const bodyParser = require("body-parser");
+
+const app = express();
+dbConnect();
+
+const PORT = process.env.PORT || 5000;
+
+app.use(cors());
+bodyParser.json();
+
+app.use("/appointment", appointmentRouter);
+app.use("/doctor", doctorRouter);
+app.use("/patient", patientRouter);
+
+app.listen(PORT, () => {
+  console.log("server listing on port " + PORT);
+});
