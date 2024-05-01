@@ -2,11 +2,11 @@ const express = require("express");
 const router = express.Router();
 
 const {
-  getAllDoctors,
-  getDoctorById,
-  addDoctor,
-  updateDoctor,
-  deleteDoctor,
+    getAllDoctors,
+    getDoctorById,
+    addDoctor,
+    updateDoctor,
+    deleteDoctor,
 } = require("../controllers/doctorController");
 
 router.route("/").get(getAllDoctors).post(addDoctor);

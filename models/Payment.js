@@ -1,48 +1,48 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const paymentSchema = new mongoose.Schema(
-{
-  pId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Appointment',
-    required: true
-  },
+const paymentSchema = new Schema({
+    pId: {
+        type: mongoose.Schema.Types.ObjectId,
 
-  amount: {
-    type: Number,
-    required: true
-  },
+        ref: "Appointment",
+        required: true,
+    },
 
-  paymentDate: {
-    type: Date,
-    default: Date.now
-  },
+    amount: {
+        type: Number,
+        required: true,
+    },
 
-  status: {
-    type: String,
-    enum: ['Paid', 'Pending', 'Unpaid'],
-    default: 'Pending'
-  },
+    paymentDate: {
+        type: Date,
+        default: Date.now,
+    },
 
-  invoiceId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Invoice'
-  },
+    status: {
+        type: String,
+        enum: ["Paid", "Pending", "Unpaid"],
+        default: "Pending",
+    },
 
-  paymentMethod: {
-    type: String,
-    enum:[PayPal,VisaCard, OMT, whish],
-    required: true
-  },
+    invoiceId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Invoice",
+    },
 
-  transactionId: {
-    type: String
-  },
-  
-  comments: {
-    type: String
-  }
+    paymentMethod: {
+        type: String,
+        enum: [PayPal, VisaCard, OMT, whish],
+        required: true,
+    },
+
+    transactionId: {
+        type: String,
+    },
+
+    comments: {
+        type: String,
+    },
 });
-const Payment = mongoose.model('Payment', paymentSchema);
+const Payment = mongoose.model("Payment", paymentSchema);
 module.exports = Payment;

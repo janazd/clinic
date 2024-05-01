@@ -21,5 +21,5 @@ app.use("/doctor", doctorRouter);
 app.use("/patient", patientRouter);
 
 app.listen(PORT, () => {
-  console.log("server listing on port " + PORT);
+    console.log("server listing on port " + PORT);
 });
