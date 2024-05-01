@@ -6,7 +6,6 @@ const dbConnect = require("./config/db");
 const doctorRouter = require("./routes/doctorRoutes");
 const patientRouter = require("./routes/patientRouter");
 const appointmentRouter = require("./routes/appointmentRouter");
-const bodyParser = require("body-parser");
 
 const app = express();
 dbConnect();
@@ -14,7 +13,7 @@ dbConnect();
 const PORT = process.env.PORT || 5000;
 
 app.use(cors());
-bodyParser.json();
+app.use(express.json());
 
 app.use("/appointment", appointmentRouter);
 app.use("/doctor", doctorRouter);
