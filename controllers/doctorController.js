@@ -27,12 +27,7 @@ exports.loginDoctor = async (req, res) => {
 };
 
 exports.addDoctor = async (req, res) => {
-<<<<<<< HEAD
-  console.log(req.body);
-  const { firstname, lastname, email, password, schedule } = req.body;
-=======
     const { firstname, lastname, email, password, schedule } = req.body;
->>>>>>> d8160451446265840ae152573a8c04cf724cd968
 
     try {
         const existingDoctor = await Doctor.findOne({ email });
@@ -43,11 +38,6 @@ exports.addDoctor = async (req, res) => {
 
         const salt = await bcrypt.genSalt(10);
 
-<<<<<<< HEAD
-  const newDoctor = await doctor.save();
-
-  return res.status(201).json(newDoctor);
-=======
         const doctor = new Doctor({
             firstname,
             lastname,
@@ -63,7 +53,6 @@ exports.addDoctor = async (req, res) => {
         console.error(err);
         res.status(500).json({ message: "Server Error" });
     }
->>>>>>> d8160451446265840ae152573a8c04cf724cd968
 };
 exports.getAllDoctors = async (req, res) => {
     try {

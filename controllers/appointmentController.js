@@ -1,7 +1,5 @@
 const Appointment = require("../models/Appointment");
 
-<<<<<<< HEAD
-=======
 async function addAppointment(req, res) {
     const { pid, doc_id, date, reason, status } = req.body;
 
@@ -22,7 +20,6 @@ async function addAppointment(req, res) {
     await appointment.save();
 }
 
->>>>>>> d8160451446265840ae152573a8c04cf724cd968
 exports.getAllAppointments = async (req, res) => {
     try {
         const appointments = await Appointment.find()
@@ -89,28 +86,6 @@ exports.getAppointmentsByPatient = async (req, res) => {
 };
 
 exports.createAppointment = async (req, res) => {
-<<<<<<< HEAD
-  if (!req.body.pid || !req.body.doc_id || !req.body.date) {
-    return res.status(400).json({ message: "Missing required fields" });
-  }
-
-  try {
-    const existingAppointment = await Appointment.findOne({ date });
-
-    if (existingAppointment) {
-      return res.status(400).json({ message: "Appointment already exists" });
-    }
-
-    const newAppointment = new Appointment(req.body);
-    const savedAppointment = await newAppointment.save();
-    res.status(201).json(savedAppointment);
-  } catch (err) {
-    console.error(err);
-    if (err.name === "MongoError" && err.kind === "ObjectId") {
-      return res
-        .status(400)
-        .json({ message: "Invalid patient or doctor reference" });
-=======
     if (!req.body.pid || !req.body.doc_id || !req.body.date) {
         return res.status(400).json({ message: "Missing required fields" });
     }
@@ -127,7 +102,6 @@ exports.createAppointment = async (req, res) => {
                 .json({ message: "Invalid patient or doctor reference" });
         }
         res.status(500).json({ message: "Server Error" });
->>>>>>> d8160451446265840ae152573a8c04cf724cd968
     }
 };
 

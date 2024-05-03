@@ -52,22 +52,6 @@ exports.getPatientById = async (req, res) => {
 };
 
 exports.createPatient = async (req, res) => {
-<<<<<<< HEAD
-  console.log(req.body);
-  if (!req.body.firstname || !req.body.lastname || !req.body.phone) {
-    return res.status(400).json({ message: "Missing required fields" });
-  }
-
-  try {
-    const newPatient = new Patient(req.body);
-    const savedPatient = await newPatient.save();
-    res.status(201).json(savedPatient);
-  } catch (err) {
-    console.error(err);
-    if (err.code && err.code === 11000) {
-      const duplicateField = Object.keys(err.keyValue)[0];
-      return res.status(400).json({ message: `Duplicate ${duplicateField}` });
-=======
     if (!req.body.firstname || !req.body.lastname || !req.body.phone) {
         return res.status(400).json({ message: "Missing required fields" });
     }
@@ -85,7 +69,6 @@ exports.createPatient = async (req, res) => {
                 .json({ message: `Duplicate ${duplicateField}` });
         }
         res.status(500).json({ message: "Server Error" });
->>>>>>> d8160451446265840ae152573a8c04cf724cd968
     }
 };
 
