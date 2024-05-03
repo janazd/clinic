@@ -1,25 +1,5 @@
 const Appointment = require("../models/Appointment");
 
-async function addAppointment(req, res) {
-  const { pid, doc_id, date, reason, status } = req.body;
-
-  const existingAppointment = await Appointment.findOne({ date });
-
-  if (existingAppointment) {
-    return res.status(400).json({ message: "Appointment already exists" });
-  }
-
-  const appointment = new Appointment({
-    pid,
-    doc_id,
-    date,
-    reason,
-    status,
-  });
-
-  await appointment.save();
-}
-
 exports.getAllAppointments = async (req, res) => {
   try {
     const appointments = await Appointment.find()
@@ -91,6 +71,12 @@ exports.createAppointment = async (req, res) => {
   }
 
   try {
+    const existingAppointment = await Appointment.findOne({ date });
+
+    if (existingAppointment) {
+      return res.status(400).json({ message: "Appointment already exists" });
+    }
+
     const newAppointment = new Appointment(req.body);
     const savedAppointment = await newAppointment.save();
     res.status(201).json(savedAppointment);

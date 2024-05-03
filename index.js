@@ -3,10 +3,10 @@ const cors = require("cors");
 require("dotenv").config();
 const dbConnect = require("./config/db");
 
-const doctorRouter = require("./routes/doctorRoutes");
+const doctorRouter = require("./routes/doctorRouter");
 const patientRouter = require("./routes/patientRouter");
 const appointmentRouter = require("./routes/appointmentRouter");
-const bodyParser = require("body-parser");
+const paymentRouter = require("./routes/paymentRouter");
 
 const app = express();
 dbConnect();
@@ -14,11 +14,12 @@ dbConnect();
 const PORT = process.env.PORT || 5000;
 
 app.use(cors());
-bodyParser.json();
+app.use(express.json());
 
 app.use("/appointment", appointmentRouter);
 app.use("/doctor", doctorRouter);
 app.use("/patient", patientRouter);
+app.use("/payment", paymentRouter);
 
 app.listen(PORT, () => {
   console.log("server listing on port " + PORT);

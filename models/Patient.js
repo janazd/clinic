@@ -19,8 +19,8 @@ const PatientSchema = new Schema(
       enum: ["male", "female"],
     },
 
-    age: {
-      type: Number,
+    date_of_birth: {
+      type: Date,
     },
 
     phone: {

@@ -52,6 +52,7 @@ exports.getPatientById = async (req, res) => {
 };
 
 exports.createPatient = async (req, res) => {
+  console.log(req.body);
   if (!req.body.firstname || !req.body.lastname || !req.body.phone) {
     return res.status(400).json({ message: "Missing required fields" });
   }

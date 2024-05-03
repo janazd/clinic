@@ -1,7 +1,7 @@
 const Doctor = require("../models/Doctor");
 
 exports.addDoctor = async (req, res) => {
-  console.log(req);
+  console.log(req.body);
   const { firstname, lastname, email, password, schedule } = req.body;
 
   const existingDoctor = await Doctor.findOne({ email });
@@ -18,7 +18,9 @@ exports.addDoctor = async (req, res) => {
     schedule,
   });
 
-  await doctor.save();
+  const newDoctor = await doctor.save();
+
+  return res.status(201).json(newDoctor);
 };
 exports.getAllDoctors = async (req, res) => {
   try {
