@@ -6,7 +6,10 @@ const dbConnect = require("./config/db");
 const doctorRouter = require("./routes/doctorRouter");
 const patientRouter = require("./routes/patientRouter");
 const appointmentRouter = require("./routes/appointmentRouter");
+<<<<<<< HEAD
 const paymentRouter = require("./routes/paymentRouter");
+=======
+>>>>>>> d8160451446265840ae152573a8c04cf724cd968
 
 const app = express();
 dbConnect();
@@ -22,5 +25,5 @@ app.use("/patient", patientRouter);
 app.use("/payment", paymentRouter);
 
 app.listen(PORT, () => {
-  console.log("server listing on port " + PORT);
+    console.log("server listing on port " + PORT);
 });

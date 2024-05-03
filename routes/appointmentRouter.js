@@ -1,25 +1,27 @@
 const express = require("express");
 const router = express.Router();
 
+const { auth } = require("../middlewares/authMiddleware");
+
 const {
-  getAllAppointments,
-  getAppointmentById,
-  getAppointmentsByDoctor,
-  getAppointmentsByPatient,
-  createAppointment,
-  updateAppointment,
-  deleteAppointment,
+    getAllAppointments,
+    getAppointmentById,
+    getAppointmentsByDoctor,
+    getAppointmentsByPatient,
+    createAppointment,
+    updateAppointment,
+    deleteAppointment,
 } = require("../controllers/appointmentController");
 
-router.route("/").get(getAllAppointments).post(createAppointment);
+router.route("/").get(auth, getAllAppointments).post(auth, createAppointment);
 router
-  .route("/:id")
-  .get(getAppointmentById)
-  .put(updateAppointment)
-  .delete(deleteAppointment);
+    .route("/:id")
+    .get(auth, getAppointmentById)
+    .put(auth, updateAppointment)
+    .delete(auth, deleteAppointment);
 
-router.route("/doctor/:doctorId").get(getAppointmentsByDoctor);
+router.route("/doctor/:doctorId").get(auth, getAppointmentsByDoctor);
 
-router.route("/patient/:patientId").get(getAppointmentsByPatient);
+router.route("/patient/:patientId").get(auth, getAppointmentsByPatient);
 
 module.exports = router;
