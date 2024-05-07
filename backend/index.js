@@ -18,7 +18,6 @@ app.use(express.json());
 app.use("/appointment", appointmentRouter);
 app.use("/doctor", doctorRouter);
 app.use("/patient", patientRouter);
-app.use("/payment", paymentRouter);
 
 app.listen(PORT, () => {
     console.log("server listing on port " + PORT);
