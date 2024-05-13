@@ -1,18 +1,31 @@
-import React from "react";
-import { MountainIcon } from "../assets";
+import { useState } from "react";
+
+import { MountainIcon, CheckMark } from "../assets";
 
 function ServiceCard(props) {
     const { name, duration, price } = props;
 
+    const [check, setCheck] = useState(false);
+
     return (
-        <div className="flex border border-gray-300 rounded-md px-4 py-3 mb-5">
+        <button
+            onClick={() => setCheck(!check)}
+            className="relative w-full flex border border-gray-300 rounded-md px-4 py-3 mb-5"
+        >
+            <div className="absolute top-2 right-2">
+                {check ? (
+                    <CheckMark className="h-5 w-5 fill-indigo-800" />
+                ) : (
+                    <></>
+                )}
+            </div>
             <div className="flex justify-center items-center mr-5">
                 <div className="p-2 border border-gray-300 rounded-full">
                     <MountainIcon className="h-8 w-8" />
                 </div>
             </div>
-            <div>
-                <div className="font-bold">{name}</div>
+            <div className="">
+                <div className="font-bold text-left">{name}</div>
                 <div className="flex gap-4 mt-2">
                     <div className="">
                         Duration:{" "}
@@ -23,7 +36,7 @@ function ServiceCard(props) {
                     </div>
                 </div>
             </div>
-        </div>
+        </button>
     );
 }
 

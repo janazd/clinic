@@ -41,11 +41,13 @@ function Navbar() {
     };
 
     return (
-        <nav className="bg-transparent px-6 overflow-hidden">
+        <nav className="bg-blue-950 px-6 overflow-hidden mb-5">
             <div className="py-3 flex flex-wrap items-center justify-between mx-auto">
-                <Link to="/">MedConnect</Link>
+                <Link className="text-blue-100" to="/">
+                    MedConnect
+                </Link>
                 <div className="hidden md:flex items-center justify-center">
-                    <ul className="list-none flex flex-row">
+                    <ul className="list-none flex flex-row text-blue-100">
                         <li className="mx-6">
                             <Link to="/">Home</Link>
                         </li>
@@ -65,7 +67,7 @@ function Navbar() {
                 </div>
                 <div className="md:hidden flex items-center justify-center my-2">
                     <button onClick={handleOpen}>
-                        <Bars3Icon className="h-6 w-6" />
+                        <Bars3Icon className="h-6 w-6 stroke-white" />
                     </button>
                 </div>
             </div>

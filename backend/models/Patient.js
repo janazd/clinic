@@ -19,7 +19,7 @@ const PatientSchema = new Schema(
             enum: ["male", "female"],
         },
 
-        age: {
+        yob: {
             type: Number,
         },
 
