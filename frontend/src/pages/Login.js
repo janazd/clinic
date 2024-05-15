@@ -38,22 +38,12 @@ function Login() {
                         </div>
 
                         <div>
-                            <div className="flex items-center justify-between">
-                                <label
-                                    htmlFor="password"
-                                    className="block text-sm font-medium leading-6 text-gray-900"
-                                >
-                                    Password
-                                </label>
-                                <div className="text-sm">
-                                    <Link
-                                        to="/register"
-                                        className="font-semibold text-indigo-600 hover:text-indigo-500"
-                                    >
-                                        Forgot password?
-                                    </Link>
-                                </div>
-                            </div>
+                            <label
+                                htmlFor="password"
+                                className="block text-sm font-medium leading-6 text-gray-900"
+                            >
+                                Password
+                            </label>
                             <div className="mt-2">
                                 <input
                                     id="password"
@@ -77,13 +67,22 @@ function Login() {
                     </form>
 
                     <p className="mt-10 text-center text-sm text-gray-500">
-                        New member?{" "}
+                        New patient?{" "}
                         <Link
-                            to="/register"
+                            to="/appointment"
                             className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
                         >
-                            Create new account
+                            Book an Appointment
                         </Link>
+                    </p>
+                    <p className="mt-3 text-center text-sm text-gray-500">
+                        Are you a doctor? Contact Us at{" "}
+                        <a
+                            href="mailto:admin@medconnect.com"
+                            className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
+                        >
+                            hr@medconnect.com
+                        </a>
                     </p>
                 </div>
             </div>
