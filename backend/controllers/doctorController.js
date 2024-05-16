@@ -50,7 +50,7 @@ exports.addDoctor = async (req, res) => {
 
         res.status(201).json({ newDoctor });
     } catch (error) {
-        console.error(err);
+        console.error(error);
         res.status(500).json({ message: "Server Error" });
     }
 };
