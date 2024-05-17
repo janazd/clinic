@@ -5,7 +5,7 @@ import banner from "../assets/banner.png";
 
 function App() {
     return (
-        <div className="bg-blue-200 h-screen">
+        <div className="bg-blue-200 h-full min-h-screen">
             <Navbar />
             <div className="w-4/5 bg-blue-950 mx-auto rounded-3xl flex flex-col md:flex-row items-center justify-center md:justify-between p-8 shadow-2xl shadow-blue-900">
                 <img className="w-96" src={banner} alt="nurse" />
