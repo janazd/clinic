@@ -14,4 +14,11 @@ const getAllServices = async () => {
     return response.data;
 };
 
-export default getAllServices;
+const getAllCategories = async () => {
+    const response = await axios.get(`${API_URL}/service/categories`, config);
+
+    console.log(response);
+    return response.data;
+};
+
+export { getAllServices, getAllCategories };

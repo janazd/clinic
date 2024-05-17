@@ -10,6 +10,16 @@ exports.getAllService = async (req, res) => {
     }
 };
 
+exports.getAllCategories = async (req, res) => {
+    try {
+        const categories = await Service.find({}, "category");
+        res.json(categories);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Server Error" });
+    }
+};
+
 exports.getServiceById = async (req, res) => {
     try {
         const service = await Service.findById(req.params.id);

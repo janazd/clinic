@@ -2,7 +2,7 @@ import loginUser from "./users";
 import createNewDoctor from "./doctors";
 import createNewPatient from "./patient";
 import createNewAppointment from "./appointment";
-import getAllServices from "./service";
+import { getAllServices, getAllCategories } from "./service";
 
 export {
     loginUser,
@@ -10,4 +10,5 @@ export {
     createNewPatient,
     createNewAppointment,
     getAllServices,
+    getAllCategories,
 };

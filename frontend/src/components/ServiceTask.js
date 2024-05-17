@@ -1,22 +1,25 @@
 import { useContext, useEffect, useState } from "react";
 import { AppointmentContext } from "../pages/Appointment";
 import ServiceCard from "./ServiceCard";
-import getAllServices from "../api/service";
+import { getAllServices, getAllCategories } from "../api/service";
 
-const Categories = [
-    { id: 0, name: "All" },
-    { id: 1, name: "Clinic" },
-    { id: 2, name: "Dental Care" },
-];
+// const Categories = [
+//     { id: 0, name: "All" },
+//     { id: 1, name: "Clinic" },
+//     { id: 2, name: "Dental Care" },
+// ];
 
 function ServiceTask(props) {
     const { setCount } = props;
     const { appointment } = useContext(AppointmentContext);
+
     const [Services, setServices] = useState([]);
+    const [Categories, setCategories] = useState([]);
 
     useEffect(() => {
         async function test() {
             setServices(await getAllServices());
+            setCategories(await getAllCategories());
         }
         test();
     }, []);
@@ -30,12 +33,16 @@ function ServiceTask(props) {
                     Select Category
                 </div>
                 <div>
+                    <button className="inline-block mr-4 px-3 py-2 border border-gray-200 rounded-md">
+                        All
+                    </button>
                     {Categories.map((c) => (
                         <button
                             key={c.id}
                             className="inline-block mr-4 px-3 py-2 border border-gray-200 rounded-md"
                         >
-                            {c.name}
+                            {c.category.charAt(0).toUpperCase() +
+                                c.category.slice(1)}
                         </button>
                     ))}
                 </div>

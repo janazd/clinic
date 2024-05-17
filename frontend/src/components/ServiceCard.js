@@ -35,7 +35,9 @@ function ServiceCard(props) {
                     </div>
                 </div>
                 <div className="">
-                    <div className="font-bold text-left">{s.name}</div>
+                    <div className="font-bold text-left">
+                        {s.name.charAt(0).toUpperCase() + s.name.slice(1)}
+                    </div>
                     <div className="flex gap-4 mt-2">
                         <div className="">
                             Duration:{" "}

@@ -9,9 +9,11 @@ const {
     updateService,
     deleteService,
     createService,
+    getAllCategories,
 } = require("../controllers/serviceController");
 
 router.route("/").get(getAllService).post(createService);
+router.route("/categories").get(getAllCategories);
 router
     .route("/:id")
     .get(auth, getServiceById)
