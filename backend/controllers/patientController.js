@@ -2,10 +2,9 @@ const Patient = require("../models/Patient");
 
 exports.addPatient = async (req, res) => {
     try {
-        const { firstname, lastname, gender, age, phone, medical_history } =
+        const { firstname, lastname, gender, yob, phone, email, password } =
             req.body;
 
-        //lezem es2al dr shu lezem 7ot bdal l phone
         const existingPatient = Patient.findOne({ phone });
         if (existingPatient) {
             return res.status(400).json({ message: "Patient already exists" });
@@ -15,13 +14,14 @@ exports.addPatient = async (req, res) => {
             firstname,
             lastname,
             gender,
-            age,
+            yob,
             phone,
-            medical_history,
+            email,
+            password,
         });
         patient.save();
 
-        return res.status(201).json({ message: "Patient created succesfully" });
+        return res.status(201).json(patient);
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: "Server Error" });

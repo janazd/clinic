@@ -20,6 +20,6 @@ const ServiceSchema = new Schema({
     },
 });
 
-const Record = mongoose.model("Record", RecordSchema);
+const Service = mongoose.model("Service", ServiceSchema);
 
-module.exports = Record;
+module.exports = Service;

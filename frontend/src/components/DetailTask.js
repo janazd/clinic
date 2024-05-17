@@ -183,19 +183,19 @@ const Details = (props) => {
                     }}
                     className="flex justify-center align-center my-4 mr-6 px-4 py-3 text-white bg-indigo-800 hover:bg-indigo-700 disabled:bg-gray-400 rounded-lg"
                     disabled={
-                        // !appointment.patient?.firstname ||
+                        !appointment.patient?.firstname ||
                         appointment.patient?.firstname === "" ||
-                        // !appointment.patient?.lastname ||
+                        !appointment.patient?.lastname ||
                         appointment.patient?.lastname === "" ||
-                        // !appointment.patient?.gender ||
+                        !appointment.patient?.gender ||
                         appointment.patient?.gender === "" ||
-                        // !appointment.patient?.yob ||
+                        !appointment.patient?.yob ||
                         appointment.patient?.yob === "" ||
-                        // !appointment.patient?.email ||
+                        !appointment.patient?.email ||
                         appointment.patient?.email === "" ||
-                        // !appointment.patient?.password ||
+                        !appointment.patient?.password ||
                         appointment.patient?.password === "" ||
-                        // !appointment.patient?.phone ||
+                        !appointment.patient?.phone ||
                         appointment.patient?.phone === ""
                     }
                 >

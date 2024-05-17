@@ -13,6 +13,9 @@ const AppointmentSchema = new Schema({
     date: {
         type: Date,
     },
+    timeSlot: {
+        type: String,
+    },
     reason: {
         type: String,
     },

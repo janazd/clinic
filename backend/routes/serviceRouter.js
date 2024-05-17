@@ -7,7 +7,7 @@ const {
     getAllService,
     getServiceById,
     updateService,
-    deleteSerice,
+    deleteService,
     createService,
 } = require("../controllers/serviceController");
 
@@ -16,6 +16,6 @@ router
     .route("/:id")
     .get(auth, getServiceById)
     .put(auth, updateService)
-    .delete(auth, deleteSerice);
+    .delete(auth, deleteService);
 
 module.exports = router;

@@ -6,6 +6,7 @@ import DateTimeTask from "../components/DateTimeTask";
 import DetailTask from "../components/DetailTask";
 import Summary from "../components/Summary";
 import TaskBar from "../components/TaskBar";
+import { createNewPatient, createNewAppointment } from "../api/axios";
 
 // TODO: Get this from backend
 // const Categories = [
@@ -31,10 +32,16 @@ function Appointment() {
     const [patient, setPatient] = useState({});
     const [appointment, setAppointment] = useState({});
 
-    const handleAppointmentCreation = (e) => {
+    const handleAppointmentCreation = async (e) => {
         e.preventDefault();
-        console.log("test");
-        console.log(patient);
+        console.log("Submit");
+        console.log(appointment);
+
+        const newPatient = await createNewPatient(appointment.patient);
+        const newAppointment = await createNewAppointment(appointment);
+
+        console.log(newPatient);
+        console.log(newAppointment);
     };
 
     return (
