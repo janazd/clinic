@@ -12,7 +12,7 @@ const createNewPatient = async (patient) => {
     const response = await axios.post(`${API_URL}/patient/`, patient, config);
 
     console.log(response);
-    return response;
+    return response.data;
 };
 
 export default createNewPatient;

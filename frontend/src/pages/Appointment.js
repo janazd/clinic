@@ -38,7 +38,10 @@ function Appointment() {
         console.log(appointment);
 
         const newPatient = await createNewPatient(appointment.patient);
-        const newAppointment = await createNewAppointment(appointment);
+        const newAppointment = await createNewAppointment(
+            appointment,
+            newPatient._id
+        );
 
         console.log(newPatient);
         console.log(newAppointment);
@@ -83,42 +86,6 @@ function Appointment() {
                                 <></>
                             )}
                         </div>
-                        {/* <div className="border border-t-0 border-gray-200 rounded-b-lg flex justify-end">
-                            {count > 0 ? (
-                                <button
-                                    onClick={(e) => {
-                                        setCount(count - 1);
-                                    }}
-                                    className="px-3 py-2 mr-8"
-                                >
-                                    Go Back
-                                </button>
-                            ) : (
-                                <></>
-                            )}
-                            {count < Categories.length ? (
-                                <button
-                                    onClick={(e) => {
-                                        setCount(count + 1);
-                                    }}
-                                    className="flex justify-center align-center my-4 mr-6 px-4 py-3 text-white bg-indigo-800 hover:bg-indigo-700 rounded-lg"
-                                >
-                                    Next:{" "}
-                                </button>
-                            ) : (
-                                <></>
-                            )}
-                            {count === Categories.length ? (
-                                <button
-                                    type="submit"
-                                    className="flex justify-center align-center my-4 mr-6 px-4 py-3 text-white bg-indigo-800 hover:bg-indigo-700 rounded-lg"
-                                >
-                                    Book Appointment{" "}
-                                </button>
-                            ) : (
-                                <></>
-                            )}
-                        </div> */}
                     </form>
                 </main>
             </PatientContext.Provider>

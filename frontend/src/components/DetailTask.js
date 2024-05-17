@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { AppointmentContext } from "../pages/Appointment";
 
 const Details = (props) => {
@@ -15,8 +15,6 @@ const Details = (props) => {
             patient: { ...a.patient, [name]: value },
         }));
     };
-
-    const [note, setNote] = useState("");
 
     return (
         <>
@@ -161,8 +159,13 @@ const Details = (props) => {
                     <textarea
                         id="note"
                         rows={3}
-                        value={note}
-                        onChange={(e) => setNote(e.target.value)}
+                        value={appointment.note}
+                        onChange={(e) =>
+                            setAppointment((a) => ({
+                                ...a,
+                                note: e.target.value,
+                            }))
+                        }
                         placeholder="Enter note details"
                         className=" border-gray-200 rounded-lg w-full"
                     ></textarea>

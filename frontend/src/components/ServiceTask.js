@@ -1,18 +1,7 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AppointmentContext } from "../pages/Appointment";
 import ServiceCard from "./ServiceCard";
-
-//TODO: Get this from the database
-const Services = [
-    { id: 0, name: "Illness", category: "Clinic", duration: 60, price: 100.0 },
-    {
-        id: 1,
-        name: "General Dentistry",
-        category: "Dental Care",
-        duration: 30,
-        price: 100.0,
-    },
-];
+import getAllServices from "../api/service";
 
 const Categories = [
     { id: 0, name: "All" },
@@ -23,6 +12,16 @@ const Categories = [
 function ServiceTask(props) {
     const { setCount } = props;
     const { appointment } = useContext(AppointmentContext);
+    const [Services, setServices] = useState([]);
+
+    useEffect(() => {
+        async function test() {
+            setServices(await getAllServices());
+        }
+        test();
+    }, []);
+
+    console.log(Services);
 
     return (
         <>

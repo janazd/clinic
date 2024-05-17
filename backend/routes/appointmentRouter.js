@@ -13,7 +13,7 @@ const {
     deleteAppointment,
 } = require("../controllers/appointmentController");
 
-router.route("/").get(auth, getAllAppointments).post(createAppointment);
+router.route("/").get(getAllAppointments).post(createAppointment);
 router
     .route("/:id")
     .get(auth, getAppointmentById)

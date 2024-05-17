@@ -1,30 +1,37 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const AppointmentSchema = new Schema({
-    pid: {
-        type: Schema.Types.ObjectId,
-        ref: "Patient",
+const AppointmentSchema = new Schema(
+    {
+        pid: {
+            type: Schema.Types.ObjectId,
+            ref: "Patient",
+        },
+        doc_id: {
+            type: Schema.Types.ObjectId,
+            ref: "Doctor",
+        },
+        service: {
+            type: Schema.Types.ObjectId,
+            ref: "Service",
+        },
+        date: {
+            type: Date,
+        },
+        timeSlot: {
+            type: String,
+        },
+        reason: {
+            type: String,
+        },
+        status: {
+            type: String,
+            enum: ["confirmed", "cancelled", "completed", "pending"],
+            default: "pending",
+        },
     },
-    doc_id: {
-        type: Schema.Types.ObjectId,
-        ref: "Doctor",
-    },
-    date: {
-        type: Date,
-    },
-    timeSlot: {
-        type: String,
-    },
-    reason: {
-        type: String,
-    },
-    status: {
-        type: String,
-        enum: ["confirmed", "cancelled", "completed", "pending"],
-        default: "pending",
-    },
-});
+    { timestamps: true }
+);
 
 const Appointment = mongoose.model("Appointment", AppointmentSchema);
 

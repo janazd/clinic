@@ -7,13 +7,32 @@ const config = {
     },
 };
 
-const createNewAppointment = async (appointment) => {
-    // const pid = appointment.patient._id
-    // const doc_id = appointment
+const createNewAppointment = async (appointment, pid) => {
+    const doc_id = appointment.service.doc_id;
+    const service = appointment.service._id;
+    const date = appointment.date.toDateString();
+    const timeSlot = appointment.time;
+    const reason = appointment.note;
+
+    console.log({
+        pid,
+        doc_id,
+        service,
+        date,
+        timeSlot,
+        reason,
+    });
 
     const response = await axios.post(
         `${API_URL}/appointment/`,
-        appointment,
+        {
+            pid,
+            doc_id,
+            service,
+            date,
+            timeSlot,
+            reason,
+        },
         config
     );
 

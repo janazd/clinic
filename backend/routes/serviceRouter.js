@@ -11,7 +11,7 @@ const {
     createService,
 } = require("../controllers/serviceController");
 
-router.route("/").get(auth, getAllService).post(createService);
+router.route("/").get(getAllService).post(createService);
 router
     .route("/:id")
     .get(auth, getServiceById)

@@ -11,7 +11,7 @@ const getAllServices = async () => {
     const response = await axios.get(`${API_URL}/service`, config);
 
     console.log(response);
-    return response;
+    return response.data;
 };
 
 export default getAllServices;
