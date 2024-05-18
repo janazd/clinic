@@ -4,7 +4,7 @@ import { ToastContainer } from "react-toastify";
 import "./index.css";
 import "react-toastify/dist/ReactToastify.css";
 
-import { Admin, App, Appointment, Login } from "./pages";
+import { Admin, App, Appointment, Doctor, Login } from "./pages";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 const router = createBrowserRouter([
@@ -19,6 +19,10 @@ const router = createBrowserRouter([
     {
         path: "/appointment",
         element: <Appointment />,
+    },
+    {
+        path: "/doctor",
+        element: <Doctor />,
     },
     {
         path: "/admin",

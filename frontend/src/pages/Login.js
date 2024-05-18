@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 
 import { loginUser } from "../api/axios";
+import { toast } from "react-toastify";
 
 function Login() {
     const [email, setEmail] = useState("");
@@ -14,14 +15,19 @@ function Login() {
         e.preventDefault();
 
         const res = await loginUser({ email, password });
-        const data = jwtDecode(res.data);
-
-        if (res.status === 200 && data.d === true) {
-            navigate("/doctors");
-        } else if (res.status === 200 && data.p === true) {
-            navigate("/");
+        if (res.status === 200) {
+            const data = jwtDecode(res.data.token);
+            if (data.d === true) {
+                navigate("/doctor");
+                toast.success("Welcome!");
+            } else if (data.p === true) {
+                navigate("/");
+                toast.success("Welcome!");
+            } else {
+                console.error(data.message);
+            }
         } else {
-            console.error(data.message);
+            toast.error(res.data.message);
         }
     };
 

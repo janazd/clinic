@@ -23,7 +23,10 @@ exports.loginDoctor = async (req, res) => {
         });
 
         res.status(200).json({ token });
-    } catch (error) {}
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Server Error" });
+    }
 };
 
 exports.addDoctor = async (req, res) => {

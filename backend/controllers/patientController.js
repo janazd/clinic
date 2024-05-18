@@ -3,10 +3,13 @@ const Patient = require("../models/Patient");
 
 exports.addPatient = async (req, res) => {
     try {
+        if (!req.body.firstname || !req.body.lastname || !req.body.phone) {
+            return res.status(400).json({ message: "Missing required fields" });
+        }
         const { firstname, lastname, gender, yob, phone, email, password } =
             req.body;
 
-        const existingPatient = Patient.findOne({ phone });
+        const existingPatient = await Patient.findOne({ phone });
         if (existingPatient) {
             return res.status(400).json({ message: "Patient already exists" });
         }
@@ -54,26 +57,26 @@ exports.getPatientById = async (req, res) => {
     }
 };
 
-exports.createPatient = async (req, res) => {
-    if (!req.body.firstname || !req.body.lastname || !req.body.phone) {
-        return res.status(400).json({ message: "Missing required fields" });
-    }
+// exports.createPatient = async (req, res) => {
+//     if (!req.body.firstname || !req.body.lastname || !req.body.phone) {
+//         return res.status(400).json({ message: "Missing required fields" });
+//     }
 
-    try {
-        const newPatient = new Patient(req.body);
-        const savedPatient = await newPatient.save();
-        res.status(201).json(savedPatient);
-    } catch (err) {
-        console.error(err);
-        if (err.code && err.code === 11000) {
-            const duplicateField = Object.keys(err.keyValue)[0];
-            return res
-                .status(400)
-                .json({ message: `Duplicate ${duplicateField}` });
-        }
-        res.status(500).json({ message: "Server Error" });
-    }
-};
+//     try {
+//         const newPatient = new Patient(req.body);
+//         const savedPatient = await newPatient.save();
+//         res.status(201).json(savedPatient);
+//     } catch (err) {
+//         console.error(err);
+//         if (err.code && err.code === 11000) {
+//             const duplicateField = Object.keys(err.keyValue)[0];
+//             return res
+//                 .status(400)
+//                 .json({ message: `Duplicate ${duplicateField}` });
+//         }
+//         res.status(500).json({ message: "Server Error" });
+//     }
+// };
 
 exports.updatePatient = async (req, res) => {
     const updates = Object.keys(req.body);

@@ -8,10 +8,11 @@ const {
     getPatientById,
     updatePatient,
     deletePatient,
+    addPatient,
     createPatient,
 } = require("../controllers/patientController");
 
-router.route("/").get(auth, getAllPatients).post(createPatient);
+router.route("/").get(auth, getAllPatients).post(addPatient);
 router
     .route("/:id")
     .get(auth, getPatientById)
