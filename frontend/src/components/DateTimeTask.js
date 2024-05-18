@@ -49,7 +49,7 @@ const DateTimeTask = (props) => {
                                     htmlFor={c}
                                     className={`border border-gray-200 hover:border-black cursor-pointer rounded-lg px-4 py-2 ${
                                         appointment.time === t
-                                            ? "border-2 border-black"
+                                            ? "border-2 !border-black"
                                             : ""
                                     }`}
                                 >

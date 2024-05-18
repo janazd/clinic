@@ -10,14 +10,16 @@ const {
     deleteService,
     createService,
     getAllCategories,
+    getServicesByCategory,
 } = require("../controllers/serviceController");
 
 router.route("/").get(getAllService).post(createService);
 router.route("/categories").get(getAllCategories);
 router
     .route("/:id")
-    .get(auth, getServiceById)
+    .get(getServiceById)
     .put(auth, updateService)
     .delete(auth, deleteService);
+router.route("/category/:name").get(getServicesByCategory);
 
 module.exports = router;

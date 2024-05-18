@@ -7,6 +7,7 @@ import { ReactComponent as Bars3Icon } from "./bars-3.svg";
 import { ReactComponent as XMark } from "./x-mark.svg";
 import { ReactComponent as MountainIcon } from "./mountain.svg";
 import { ReactComponent as CheckMark } from "./checkMark.svg";
+import { ReactComponent as SpinnerIcon } from "./spinner.svg";
 
 export {
     ServiceIcon,
@@ -18,4 +19,5 @@ export {
     XMark,
     MountainIcon,
     CheckMark,
+    SpinnerIcon,
 };

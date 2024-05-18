@@ -21,10 +21,7 @@ const Details = (props) => {
             <div className="text-indigo-800 font-bold mb-3">Basic Details</div>
             <div className="flex flex-col gap-7">
                 <div>
-                    <label
-                        className="block ml-1 mb-3 text-gray-600"
-                        htmlFor="firstname"
-                    >
+                    <label className="block ml-1 mb-3" htmlFor="firstname">
                         First name
                     </label>
                     <input
@@ -39,10 +36,7 @@ const Details = (props) => {
                     />
                 </div>
                 <div>
-                    <label
-                        className="block ml-1 mb-3 text-gray-600"
-                        htmlFor="lastname"
-                    >
+                    <label className="block ml-1 mb-3 " htmlFor="lastname">
                         Last name
                     </label>
                     <input
@@ -57,10 +51,7 @@ const Details = (props) => {
                     />
                 </div>
                 <div>
-                    <label
-                        className="block ml-1 mb-3 text-gray-600"
-                        htmlFor="gender"
-                    >
+                    <label className="block ml-1 mb-3 " htmlFor="gender">
                         Gender
                     </label>
                     <select
@@ -79,10 +70,7 @@ const Details = (props) => {
                     </select>
                 </div>
                 <div>
-                    <label
-                        className="block ml-1 mb-3 text-gray-600"
-                        htmlFor="yob"
-                    >
+                    <label className="block ml-1 mb-3 " htmlFor="yob">
                         Year of Birth
                     </label>
                     <input
@@ -97,10 +85,7 @@ const Details = (props) => {
                     />
                 </div>
                 <div>
-                    <label
-                        className="block ml-1 mb-3 text-gray-600"
-                        htmlFor="email"
-                    >
+                    <label className="block ml-1 mb-3 " htmlFor="email">
                         Email Address
                     </label>
                     <input
@@ -115,10 +100,7 @@ const Details = (props) => {
                     />
                 </div>
                 <div>
-                    <label
-                        className="block ml-1 mb-3 text-gray-600"
-                        htmlFor="password"
-                    >
+                    <label className="block ml-1 mb-3 " htmlFor="password">
                         New Password
                     </label>
                     <input
@@ -133,10 +115,7 @@ const Details = (props) => {
                     />
                 </div>
                 <div>
-                    <label
-                        className="block ml-1 mb-3 text-gray-600"
-                        htmlFor="phone"
-                    >
+                    <label className="block ml-1 mb-3 " htmlFor="phone">
                         Phone Number
                     </label>
                     <input
@@ -150,10 +129,7 @@ const Details = (props) => {
                     />
                 </div>
                 <div>
-                    <label
-                        className="block ml-1 mb-3 text-gray-600"
-                        htmlFor="note"
-                    >
+                    <label className="block ml-1 mb-3 " htmlFor="note">
                         Note
                     </label>
                     <textarea

@@ -1,9 +1,9 @@
 import { useContext } from "react";
-import { SummaryPageIcon } from "../assets";
+import { SpinnerIcon, SummaryPageIcon } from "../assets";
 import { AppointmentContext } from "../pages/Appointment";
 
 const Summary = (props) => {
-    const { setCount } = props;
+    const { setCount, isLoading } = props;
 
     const { appointment } = useContext(AppointmentContext);
 
@@ -54,9 +54,17 @@ const Summary = (props) => {
                 </button>
                 <button
                     type="submit"
-                    className="flex justify-center align-center my-4 mr-6 px-4 py-3 text-white bg-indigo-800 hover:bg-indigo-700 rounded-lg"
+                    className={`flex justify-center items-center my-4 mr-6 px-4 py-3 text-white bg-indigo-800 hover:bg-indigo-700 rounded-lg disabled:bg-gray-300`}
+                    disabled={isLoading}
                 >
-                    Book Appointment
+                    {isLoading ? (
+                        <div className="mr-2">
+                            <SpinnerIcon className="w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" />
+                        </div>
+                    ) : (
+                        <></>
+                    )}
+                    <div>Book Appointment</div>
                 </button>
             </div>
         </>

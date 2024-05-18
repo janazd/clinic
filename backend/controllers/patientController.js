@@ -1,3 +1,4 @@
+const bcrypt = require("bcrypt");
 const Patient = require("../models/Patient");
 
 exports.addPatient = async (req, res) => {
@@ -10,6 +11,8 @@ exports.addPatient = async (req, res) => {
             return res.status(400).json({ message: "Patient already exists" });
         }
 
+        const salt = await bcrypt.genSalt(10);
+
         const patient = new Patient({
             firstname,
             lastname,
@@ -17,7 +20,7 @@ exports.addPatient = async (req, res) => {
             yob,
             phone,
             email,
-            password,
+            password: await bcrypt.hash(password, salt),
         });
         patient.save();
 

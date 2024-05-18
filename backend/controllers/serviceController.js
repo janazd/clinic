@@ -20,6 +20,19 @@ exports.getAllCategories = async (req, res) => {
     }
 };
 
+exports.getServicesByCategory = async (req, res) => {
+    try {
+        const service = await Service.find({ category: req.params.name });
+        if (!service) {
+            return res.status(404).json({ message: "Service not found" });
+        }
+        res.json(service);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Server Error" });
+    }
+};
+
 exports.getServiceById = async (req, res) => {
     try {
         const service = await Service.findById(req.params.id);
