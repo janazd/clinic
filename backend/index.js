@@ -22,6 +22,8 @@ app.use("/doctor", doctorRouter);
 app.use("/patient", patientRouter);
 app.use("/user", userRouter);
 app.use("/service", serviceRouter);
+app.use("/api/contact", contactRouter); // Use the new contact router
+
 app.listen(PORT, () => {
     console.log("server listing on port " + PORT);
 });

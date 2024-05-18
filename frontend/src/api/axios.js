@@ -1,3 +1,4 @@
+import axios from "axios";
 import loginUser from "./users";
 import createNewDoctor from "./doctors";
 import createNewPatient from "./patient";
@@ -7,6 +8,8 @@ import {
     getAllCategories,
     getServicesByCategory,
 } from "./service";
+
+export default axios;
 
 export {
     loginUser,

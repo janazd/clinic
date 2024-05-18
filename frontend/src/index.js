@@ -4,7 +4,16 @@ import { ToastContainer } from "react-toastify";
 import "./index.css";
 import "react-toastify/dist/ReactToastify.css";
 
-import { Admin, App, Appointment, Doctor, Login } from "./pages";
+import {
+    Admin,
+    App,
+    Appointment,
+    Doctor,
+    Login,
+    Reminder,
+    ContactUs,
+    AboutUs,
+} from "./pages";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 const UserContext = createContext(null);
@@ -29,6 +38,18 @@ const router = createBrowserRouter([
     {
         path: "/admin",
         element: <Admin />,
+    },
+    {
+        path: "/reminder",
+        element: <Reminder />,
+    },
+    {
+        path: "/contact",
+        element: <ContactUs />,
+    },
+    {
+        path: "/about",
+        element: <AboutUs />,
     },
 ]);
 
