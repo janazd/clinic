@@ -8,6 +8,7 @@ const patientRouter = require("./routes/patientRouter");
 const appointmentRouter = require("./routes/appointmentRouter");
 const userRouter = require("./routes/userRouter");
 const serviceRouter = require("./routes/serviceRouter");
+const contactRouter = require("./routes/contactRouter");
 
 const app = express();
 dbConnect();
