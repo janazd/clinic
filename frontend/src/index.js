@@ -1,4 +1,4 @@
-import React from "react";
+import React, { createContext, useState } from "react";
 import ReactDOM from "react-dom/client";
 import { ToastContainer } from "react-toastify";
 import "./index.css";
@@ -6,6 +6,8 @@ import "react-toastify/dist/ReactToastify.css";
 
 import { Admin, App, Appointment, Doctor, Login } from "./pages";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
+const UserContext = createContext(null);
 
 const router = createBrowserRouter([
     {
@@ -30,10 +32,20 @@ const router = createBrowserRouter([
     },
 ]);
 
+const Users = () => {
+    const [user, setUser] = useState({});
+
+    return (
+        <UserContext.Provider value={{ user, setUser }}>
+            <RouterProvider router={router} />
+            <ToastContainer />
+        </UserContext.Provider>
+    );
+};
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
     <React.StrictMode>
-        <RouterProvider router={router} />
-        <ToastContainer />
+        <Users />
     </React.StrictMode>
 );
