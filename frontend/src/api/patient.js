@@ -9,10 +9,40 @@ const config = {
 
 // Patients
 const createNewPatient = async (patient) => {
-    const response = await axios.post(`${API_URL}/patient/`, patient, config);
+    try {
+        const response = await axios.post(
+            `${API_URL}/patient/`,
+            patient,
+            config
+        );
 
-    console.log(response);
-    return response.data;
+        return response.data;
+    } catch (err) {
+        console.error(err);
+        return err.message;
+    }
+};
+
+const getPatientById = async (id) => {
+    try {
+        const response = await axios.get(`${API_URL}/patient/${id}`, config);
+
+        return response.data;
+    } catch (err) {
+        console.error(err);
+        return err.message;
+    }
+};
+
+const deletePatient = async (id) => {
+    try {
+        const response = await axios.delete(`${API_URL}/patient/${id}`, config);
+
+        return response.data;
+    } catch (err) {
+        console.error(err);
+        return err.message;
+    }
 };
 
 export default createNewPatient;

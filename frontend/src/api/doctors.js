@@ -24,4 +24,26 @@ const createNewDoctor = async (doctor) => {
     }
 };
 
+const getDoctorById = async (id) => {
+    try {
+        const response = await axios.get(`${API_URL}/doctor/${id}`, config);
+
+        return response.data;
+    } catch (err) {
+        console.error(err);
+        return err.message;
+    }
+};
+
+const deleteDoctor = async (id) => {
+    try {
+        const response = await axios.delete(`${API_URL}/doctor/${id}`, config);
+
+        return response.data;
+    } catch (err) {
+        console.error(err);
+        return err.message;
+    }
+};
+
 export default createNewDoctor;

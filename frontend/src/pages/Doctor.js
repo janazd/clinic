@@ -15,6 +15,8 @@ import DoctorTaskBar from "../components/DoctorTaskBar";
 function Doctor() {
     const [count, setCount] = useState(0);
 
+    const docName = "sara";
+
     return (
         <>
             <Navbar />
@@ -24,7 +26,7 @@ function Doctor() {
                     alt="Doctor's pic"
                     className="rounded-full w-32 h-32"
                 />
-                <p className="text-xl font-bold">Welcome Doctor Carla!</p>
+                <p className="text-xl font-bold">Welcome Doctor {docName}!</p>
             </div>
 
             <main className="max-w-full md:max-w-6xl md:mx-auto px-8 flex flex-col md:flex-row md:justify-center md:gap-10 mt-6">
