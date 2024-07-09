@@ -12,7 +12,7 @@ const {
     createPatient,
 } = require("../controllers/patientController");
 
-router.route("/").get(auth, getAllPatients).post(addPatient);
+router.route("/").get(getAllPatients).post(addPatient);
 router
     .route("/:id")
     .get(auth, getPatientById)

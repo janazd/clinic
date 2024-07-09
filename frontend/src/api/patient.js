@@ -34,6 +34,17 @@ const getPatientById = async (id) => {
     }
 };
 
+const getAllPatient = async () => {
+    try {
+        const response = await axios.get(`${API_URL}/patient/`, config);
+
+        return response.data;
+    } catch (err) {
+        console.error(err);
+        return err.message;
+    }
+};
+
 const deletePatient = async (id) => {
     try {
         const response = await axios.delete(`${API_URL}/patient/${id}`, config);

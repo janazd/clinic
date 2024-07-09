@@ -38,21 +38,15 @@ const createNewAppointment = async (appointment, pid) => {
 
     console.log(response);
     return response;
-}
-    const getAllAppointemnt = async () => {
-
-        try{
-            const response = await axios.get(`${API_URL}/appointment/`, config),
-            return response.data
-        }catch (err) {
-            console.error(err);
-            return err.message;
-        }
-
+};
+const getAllAppointemnt = async () => {
+    try {
+        const response = await axios.get(`${API_URL}/appointment/`, config);
+        return response.data;
+    } catch (err) {
+        console.error(err);
+        return err.message;
     }
-        
-    
-
-;
+};
 
 export default createNewAppointment;

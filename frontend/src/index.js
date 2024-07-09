@@ -14,7 +14,9 @@ import {
     ContactUs,
     AboutUs,
 } from "./pages";
+import AdminAppointment from "./pages/admin/Appointment";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import AdminDoctor from "./pages/admin/Doctor";
 
 const UserContext = createContext(null);
 
@@ -38,6 +40,14 @@ const router = createBrowserRouter([
     {
         path: "/admin",
         element: <Admin />,
+    },
+    {
+        path: "/admin/appointment",
+        element: <AdminAppointment />,
+    },
+    {
+        path: "/admin/doctor",
+        element: <AdminDoctor />,
     },
     {
         path: "/reminder",
