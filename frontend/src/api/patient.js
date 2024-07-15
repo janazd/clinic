@@ -34,7 +34,7 @@ const getPatientById = async (id) => {
     }
 };
 
-const getAllPatient = async () => {
+const getAllPatients = async () => {
     try {
         const response = await axios.get(`${API_URL}/patient/`, config);
 
@@ -49,11 +49,11 @@ const deletePatient = async (id) => {
     try {
         const response = await axios.delete(`${API_URL}/patient/${id}`, config);
 
-        return response.data;
+        return { status: response.status, data: response.data };
     } catch (err) {
         console.error(err);
         return err.message;
     }
 };
 
-export default createNewPatient;
+export { createNewPatient, getPatientById, getAllPatients, deletePatient };

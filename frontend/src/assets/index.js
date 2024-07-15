@@ -8,6 +8,8 @@ import { ReactComponent as XMark } from "./x-mark.svg";
 import { ReactComponent as MountainIcon } from "./mountain.svg";
 import { ReactComponent as CheckMark } from "./checkMark.svg";
 import { ReactComponent as SpinnerIcon } from "./spinner.svg";
+import { ReactComponent as TrashIcon } from "./Trash.svg";
+import { ReactComponent as PencilIcon } from "./Pencil.svg";
 
 export {
     ServiceIcon,
@@ -20,4 +22,6 @@ export {
     MountainIcon,
     CheckMark,
     SpinnerIcon,
+    TrashIcon,
+    PencilIcon,
 };

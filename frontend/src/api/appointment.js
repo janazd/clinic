@@ -39,7 +39,7 @@ const createNewAppointment = async (appointment, pid) => {
     console.log(response);
     return response;
 };
-const getAllAppointemnt = async () => {
+const getAllAppointments = async () => {
     try {
         const response = await axios.get(`${API_URL}/appointment/`, config);
         return response.data;
@@ -49,4 +49,18 @@ const getAllAppointemnt = async () => {
     }
 };
 
-export default createNewAppointment;
+const deleteAppointment = async (id) => {
+    try {
+        const response = await axios.delete(
+            `${API_URL}/appointment/${id}`,
+            config
+        );
+
+        return { status: response.status, data: response.data };
+    } catch (err) {
+        console.error(err);
+        return err.message;
+    }
+};
+
+export { createNewAppointment, getAllAppointments, deleteAppointment };

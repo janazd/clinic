@@ -35,10 +35,9 @@ const getDoctorById = async (id) => {
     }
 };
 
-const deleteDoctor = async (id) => {
+const getAllDoctors = async () => {
     try {
-        const response = await axios.delete(`${API_URL}/doctor/${id}`, config);
-
+        const response = await axios.get(`${API_URL}/doctor/`);
         return response.data;
     } catch (err) {
         console.error(err);
@@ -46,4 +45,15 @@ const deleteDoctor = async (id) => {
     }
 };
 
-export default createNewDoctor;
+const deleteDoctor = async (id) => {
+    try {
+        const response = await axios.delete(`${API_URL}/doctor/${id}`, config);
+
+        return { status: response.status, data: response.data };
+    } catch (err) {
+        console.error(err);
+        return err.message;
+    }
+};
+
+export { createNewDoctor, getDoctorById, getAllDoctors, deleteDoctor };
