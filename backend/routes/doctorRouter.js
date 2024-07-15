@@ -17,7 +17,7 @@ router
     .route("/:id")
     .get(getDoctorById)
     .put(auth, updateDoctor)
-    .delete(auth, deleteDoctor);
+    .delete(deleteDoctor);
 
 router.route("/login").post(loginDoctor);
 

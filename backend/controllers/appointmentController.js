@@ -1,31 +1,11 @@
 const Appointment = require("../models/Appointment");
 
-// async function addAppointment(req, res) {
-//     const { pid, doc_id, date, reason, status } = req.body;
-
-//     const existingAppointment = await Appointment.findOne({ date });
-
-//     if (existingAppointment) {
-//         return res.status(400).json({ message: "Appointment already exists" });
-//     }
-
-//     const appointment = new Appointment({
-//         pid,
-//         doc_id,
-//         date,
-//         timeslot,
-//         service,
-//         status,
-//     });
-
-//     await appointment.save();
-// }
-
 exports.getAllAppointments = async (req, res) => {
     try {
         const appointments = await Appointment.find()
             .populate("pid")
-            .populate("doc_id");
+            .populate("doc_id")
+            .populate("service");
         res.json(appointments);
     } catch (err) {
         console.error(err);
@@ -37,7 +17,8 @@ exports.getAppointmentById = async (req, res) => {
     try {
         const appointment = await Appointment.findById(req.params.id)
             .populate("pid")
-            .populate("doc_id");
+            .populate("doc_id")
+            .populate("service");
         if (!appointment) {
             return res.status(404).json({ message: "Appointment not found" });
         }
@@ -54,7 +35,8 @@ exports.getAppointmentsByDoctor = async (req, res) => {
     try {
         const appointments = await Appointment.find({ doc_id: doctorId })
             .populate("pid")
-            .populate("doc_id");
+            .populate("doc_id")
+            .populate("service");
         if (!appointments.length) {
             return res
                 .status(404)
@@ -73,7 +55,8 @@ exports.getAppointmentsByPatient = async (req, res) => {
     try {
         const appointments = await Appointment.find({ pid: patientId })
             .populate("pid")
-            .populate("doc_id");
+            .populate("doc_id")
+            .populate("service");
         if (!appointments.length) {
             return res
                 .status(404)

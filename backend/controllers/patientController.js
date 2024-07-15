@@ -27,7 +27,16 @@ exports.addPatient = async (req, res) => {
         });
         patient.save();
 
-        return res.status(201).json(patient);
+        return res.status(201).json({
+            _id: patient._id,
+            firsname,
+            lastname,
+            gender,
+            yob,
+            email,
+            phone,
+            createdAt: patient.createdAt,
+        });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: "Server Error" });
@@ -36,7 +45,7 @@ exports.addPatient = async (req, res) => {
 
 exports.getAllPatients = async (req, res) => {
     try {
-        const patients = await Patient.find();
+        const patients = await Patient.find().select("-password");
         res.json(patients);
     } catch (err) {
         console.error(err);
@@ -46,7 +55,9 @@ exports.getAllPatients = async (req, res) => {
 
 exports.getPatientById = async (req, res) => {
     try {
-        const patient = await Patient.findById(req.params.id);
+        const patient = await Patient.findById(req.params.id).select(
+            "-password"
+        );
         if (!patient) {
             return res.status(404).json({ message: "Patient not found" });
         }

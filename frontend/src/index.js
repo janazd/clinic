@@ -13,53 +13,68 @@ import {
     Reminder,
     ContactUs,
     AboutUs,
+    AdminAppointment,
+    AdminDoctor,
+    AdminPatient,
 } from "./pages";
-import AdminAppointment from "./pages/admin/Appointment";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import AdminDoctor from "./pages/admin/Doctor";
 
 const UserContext = createContext(null);
 
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <App />,
-    },
-    {
-        path: "/login",
-        element: <Login />,
-    },
-    {
-        path: "/appointment",
-        element: <Appointment />,
-    },
-    {
-        path: "/doctor",
-        element: <Doctor />,
-    },
-    {
-        path: "/admin",
-        element: <Admin />,
-    },
-    {
-        path: "/admin/appointment",
-        element: <AdminAppointment />,
-    },
-    {
-        path: "/admin/doctor",
-        element: <AdminDoctor />,
-    },
-    {
-        path: "/reminder",
-        element: <Reminder />,
-    },
-    {
-        path: "/contact",
-        element: <ContactUs />,
-    },
-    {
-        path: "/about",
-        element: <AboutUs />,
+        children: [
+            {
+                path: "",
+                element: <App />,
+            },
+            {
+                path: "login",
+                element: <Login />,
+            },
+            {
+                path: "appointment",
+                element: <Appointment />,
+            },
+            {
+                path: "doctor",
+                element: <Doctor />,
+            },
+            {
+                path: "admin",
+                children: [
+                    {
+                        path: "",
+                        element: <Admin />,
+                    },
+                    {
+                        path: "appointment",
+                        element: <AdminAppointment />,
+                    },
+                    {
+                        path: "doctor",
+                        element: <AdminDoctor />,
+                    },
+                    {
+                        path: "patient",
+                        element: <AdminPatient />,
+                    },
+                ],
+            },
+            {
+                path: "reminder",
+                element: <Reminder />,
+            },
+            {
+                path: "contact",
+                element: <ContactUs />,
+            },
+            {
+                path: "about",
+                element: <AboutUs />,
+            },
+        ],
     },
 ]);
 

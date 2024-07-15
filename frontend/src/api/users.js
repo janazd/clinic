@@ -27,4 +27,4 @@ const loginUser = async (user) => {
     }
 };
 
-export default loginUser;
+export { loginUser };

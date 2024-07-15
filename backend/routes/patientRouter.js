@@ -12,11 +12,13 @@ const {
     createPatient,
 } = require("../controllers/patientController");
 
+//! TODO: DON'T FORGET THE AUTHORIZATION
+
 router.route("/").get(getAllPatients).post(addPatient);
 router
     .route("/:id")
     .get(auth, getPatientById)
     .put(auth, updatePatient)
-    .delete(auth, deletePatient);
+    .delete(deletePatient);
 
 module.exports = router;

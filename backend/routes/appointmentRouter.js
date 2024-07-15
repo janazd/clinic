@@ -13,12 +13,14 @@ const {
     deleteAppointment,
 } = require("../controllers/appointmentController");
 
+//! TODO: ADD AUTHORIZATION
+
 router.route("/").get(getAllAppointments).post(createAppointment);
 router
     .route("/:id")
     .get(auth, getAppointmentById)
     .put(auth, updateAppointment)
-    .delete(auth, deleteAppointment);
+    .delete(deleteAppointment);
 
 router.route("/doctor/:doctorId").get(auth, getAppointmentsByDoctor);
 

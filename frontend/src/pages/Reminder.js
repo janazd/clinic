@@ -1,20 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import Navbar from '../components/Navbar';
-import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
-import axios from '../api/axios';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import Calendar from "react-calendar";
+
+import Navbar from "../components/Navbar";
+import "react-calendar/dist/Calendar.css";
 
 const Reminder = () => {
     const [appointments, setAppointments] = useState([]);
     const [date, setDate] = useState(new Date());
 
+    // TODO: What we do here?
     useEffect(() => {
         const fetchAppointments = async () => {
             try {
-                const response = await axios.get('/appointments/doctor/:doctorId'); // Replace with actual doctor ID
+                const response = await axios.get(
+                    "/appointments/doctor/:doctorId"
+                ); // Replace with actual doctor ID
                 setAppointments(response.data);
             } catch (error) {
-                console.error('Error fetching appointments:', error);
+                console.error("Error fetching appointments:", error);
             }
         };
 
@@ -22,16 +26,22 @@ const Reminder = () => {
     }, []);
 
     const tileContent = ({ date, view }) => {
-        if (view === 'month') {
+        if (view === "month") {
             const dayAppointments = appointments.filter(
-                (appointment) => new Date(appointment.date).toDateString() === date.toDateString()
+                (appointment) =>
+                    new Date(appointment.date).toDateString() ===
+                    date.toDateString()
             );
 
             return dayAppointments.length ? (
                 <ul className="list-none p-0 m-0">
                     {dayAppointments.map((appointment) => (
-                        <li key={appointment._id} className="text-xs text-white bg-blue-500 rounded p-1 mb-1">
-                            {appointment.patientName} - {new Date(appointment.date).toLocaleTimeString()}
+                        <li
+                            key={appointment._id}
+                            className="text-xs text-white bg-blue-500 rounded p-1 mb-1"
+                        >
+                            {appointment.patientName} -{" "}
+                            {new Date(appointment.date).toLocaleTimeString()}
                         </li>
                     ))}
                 </ul>
@@ -52,7 +62,7 @@ const Reminder = () => {
                                 value={date}
                                 tileContent={tileContent}
                                 className="bg-white rounded-lg shadow-lg p-4 w-full" // Set width to 100%
-                                style={{ fontSize: '1.5rem', width: '100%' }} // Adjust font size and width
+                                style={{ fontSize: "1.5rem", width: "100%" }} // Adjust font size and width
                             />
                         </div>
                     </div>

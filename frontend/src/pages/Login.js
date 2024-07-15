@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 
-import { loginUser } from "../api/axios";
+import { loginUser } from "../api/users";
 import { toast } from "react-toastify";
 
 function Login() {

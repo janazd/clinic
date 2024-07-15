@@ -51,7 +51,13 @@ exports.addDoctor = async (req, res) => {
 
         const newDoctor = await doctor.save();
 
-        res.status(201).json({ newDoctor });
+        res.status(201).json({
+            _id: newDoctor._id,
+            firstname,
+            lastname,
+            email,
+            createdAt: newDoctor.createdAt,
+        });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Server Error" });
@@ -59,7 +65,7 @@ exports.addDoctor = async (req, res) => {
 };
 exports.getAllDoctors = async (req, res) => {
     try {
-        const doctors = await Doctor.find();
+        const doctors = await Doctor.find().select("-password");
         res.json(doctors);
     } catch (err) {
         console.error(err);

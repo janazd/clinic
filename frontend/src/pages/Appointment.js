@@ -6,7 +6,8 @@ import DateTimeTask from "../components/DateTimeTask";
 import DetailTask from "../components/DetailTask";
 import Summary from "../components/Summary";
 import TaskBar from "../components/TaskBar";
-import { createNewPatient, createNewAppointment } from "../api/axios";
+import { createNewPatient } from "../api/patient";
+import { createNewAppointment } from "../api/appointment";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
