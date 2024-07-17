@@ -10,6 +10,8 @@ import { ReactComponent as CheckMark } from "./checkMark.svg";
 import { ReactComponent as SpinnerIcon } from "./spinner.svg";
 import { ReactComponent as TrashIcon } from "./Trash.svg";
 import { ReactComponent as PencilIcon } from "./Pencil.svg";
+import { ReactComponent as XSVG } from "./x.svg";
+import { ReactComponent as PlusIcon } from "./plus.svg";
 
 export {
     ServiceIcon,
@@ -24,4 +26,6 @@ export {
     SpinnerIcon,
     TrashIcon,
     PencilIcon,
+    XSVG,
+    PlusIcon,
 };

@@ -56,4 +56,24 @@ const deleteDoctor = async (id) => {
     }
 };
 
-export { createNewDoctor, getDoctorById, getAllDoctors, deleteDoctor };
+const updateDoctor = async (doctor) => {
+    try {
+        const response = await axios.put(
+            `${API_URL}/doctor/${doctor._id}`,
+            config
+        );
+
+        return { status: response.status, data: response.data };
+    } catch (err) {
+        console.error(err);
+        return err.message;
+    }
+};
+
+export {
+    createNewDoctor,
+    getDoctorById,
+    getAllDoctors,
+    deleteDoctor,
+    updateDoctor,
+};

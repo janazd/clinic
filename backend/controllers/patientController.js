@@ -29,7 +29,7 @@ exports.addPatient = async (req, res) => {
 
         return res.status(201).json({
             _id: patient._id,
-            firsname,
+            firstname,
             lastname,
             gender,
             yob,

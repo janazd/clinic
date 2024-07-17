@@ -18,7 +18,7 @@ router.route("/").get(getAllPatients).post(addPatient);
 router
     .route("/:id")
     .get(auth, getPatientById)
-    .put(auth, updatePatient)
+    .put(updatePatient)
     .delete(deletePatient);
 
 module.exports = router;

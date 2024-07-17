@@ -4,9 +4,24 @@ import { Link } from "react-router-dom";
 
 import { deletePatient, getAllPatients } from "../../api/patient";
 import { PencilIcon, TrashIcon } from "../../assets";
+import NewPatient from "../../components/NewPatient";
+
+const PATIENT = {
+    _id: "",
+    firstname: "",
+    lastname: "",
+    gender: "",
+    yob: "",
+    phone: "",
+    email: "",
+    password: "",
+};
 
 function AdminPatient() {
     const [patients, setPatients] = useState([]);
+    const [patient, setPatient] = useState(PATIENT);
+    const [isHidden, setIsHidden] = useState(true);
+    const [isEdit, setIsEdit] = useState(false);
 
     useEffect(() => {
         async function fetchPatients() {
@@ -15,6 +30,11 @@ function AdminPatient() {
 
         fetchPatients();
     }, []);
+
+    useEffect(() => {
+        if (!isHidden) return;
+        setPatient(PATIENT);
+    }, [isHidden]);
 
     const AllPatient = () => {
         return (
@@ -31,7 +51,24 @@ function AdminPatient() {
                         <td className="px-6 py-4">{p.email}</td>
                         <td>
                             <span className="flex justify-center gap-4">
-                                <PencilIcon className="w-5 h-5" />
+                                <button
+                                    onClick={() => {
+                                        setPatient({
+                                            _id: p._id,
+                                            firstname: p.firstname,
+                                            lastname: p.lastname,
+                                            gender: p.gender,
+                                            yob: p.yob,
+                                            phone: p.phone.toString(),
+                                            email: p.email,
+                                            password: "",
+                                        });
+                                        setIsEdit(true);
+                                        setIsHidden(false);
+                                    }}
+                                >
+                                    <PencilIcon className="w-5 h-5" />
+                                </button>
                                 <button
                                     onClick={() => handleDeletePatient(p._id)}
                                 >
@@ -63,7 +100,13 @@ function AdminPatient() {
             <h1 className="mx-3 my-5">Admin Patient page</h1>
             <div className="mx-3">
                 <div className="px-3 flex justify-between">
-                    <button className="py-2 px-4 bg-blue-300 rounded-md mb-5">
+                    <button
+                        onClick={() => {
+                            setIsEdit(false);
+                            setIsHidden(false);
+                        }}
+                        className="py-2 px-4 bg-blue-300 hover:bg-blue-500 rounded-md mb-5"
+                    >
                         Add Patient
                     </button>
                     <Link
@@ -73,6 +116,15 @@ function AdminPatient() {
                         Back
                     </Link>
                 </div>
+
+                <NewPatient
+                    isHidden={isHidden}
+                    setIsHidden={setIsHidden}
+                    isEdit={isEdit}
+                    patient={patient}
+                    setPatient={setPatient}
+                    setPatients={setPatients}
+                />
 
                 <div className="overflow-x-scroll">
                     <table className="w-full text-sm text-gray-500">
@@ -107,94 +159,6 @@ function AdminPatient() {
             </div>
         </>
     );
-    // const [Patient, setPatient] = useState({});
-
-    // const handlePatientChange = (e) => {
-    //     const name = e.target.name;
-    //     const value = e.target.value;
-
-    //     setPatient((v) => ({ ...v, [name]: value }));
-    // };
-
-    // const handlePatientSubmit = (e) => {
-    //     e.preventDefault();
-    //     createNewPatient(Patient);
-    // };
-
-    // return (
-    //     <>
-    //         <h1>Patient</h1>
-
-    //         <div>
-    //             <h2>create New Patient</h2>
-    //             <form onSubmit={handlePatientSubmit}>
-    //                 <div>
-    //                     first name
-    //                     <input
-    //                         type="text"
-    //                         name="firstname"
-    //                         value={Patient.firstname}
-    //                         onChange={handlePatientChange}
-    //                     />
-    //                 </div>
-    //                 <div>
-    //                     last name
-    //                     <input
-    //                         type="text"
-    //                         name="lastname"
-    //                         value={Patient.lastname}
-    //                         onChange={handlePatientChange}
-    //                     />
-    //                 </div>
-    //                 <div>
-    //                     gender
-    //                     <input
-    //                         type="select"
-    //                         name="gender"
-    //                         value={Patient.gender}
-    //                         onChange={handlePatientChange}
-    //                     />
-    //                 </div>
-    //                 <div>
-    //                     year of birth
-    //                     <input
-    //                         type="number"
-    //                         name="yob"
-    //                         value={Patient.yob}
-    //                         onChange={handlePatientChange}
-    //                     />
-    //                 </div>
-    //                 <div>
-    //                     email
-    //                     <input
-    //                         type="email"
-    //                         name="email"
-    //                         value={Patient.email}
-    //                         onChange={handlePatientChange}
-    //                     />
-    //                 </div>
-    //                 <div>
-    //                     password
-    //                     <input
-    //                         type="password"
-    //                         name="password"
-    //                         value={Patient.password}
-    //                         onChange={handlePatientChange}
-    //                     />
-    //                 </div>
-    //                 <div>
-    //                     medical history
-    //                     <input
-    //                         type="text"
-    //                         name="medical_history"
-    //                         value={Patient.medical_history}
-    //                         onChange={handlePatientChange}
-    //                     />
-    //                 </div>
-    //             </form>
-    //         </div>
-    //     </>
-    // );
 }
 
 export default AdminPatient;

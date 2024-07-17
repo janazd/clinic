@@ -2,16 +2,24 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 
-import {
-    createNewDoctor,
-    getAllDoctors,
-    deleteDoctor,
-} from "../../api/doctors";
+import { getAllDoctors, deleteDoctor } from "../../api/doctors";
 
 import { TrashIcon, PencilIcon } from "../../assets";
+import NewDoctor from "../../components/NewDoctor";
+
+const DOCTOR = {
+    _id: "",
+    firstname: "",
+    lastname: "",
+    email: "",
+    password: "",
+};
 
 function AdminDoctor() {
     const [doctors, setDoctors] = useState([]);
+    const [doctor, setDoctor] = useState(DOCTOR);
+    const [isHidden, setIsHidden] = useState(true);
+    const [isEdit, setIsEdit] = useState(false);
 
     useEffect(() => {
         async function fetchDoctors() {
@@ -20,20 +28,6 @@ function AdminDoctor() {
 
         fetchDoctors();
     }, []);
-
-    // const [doctor, setDoctor] = useState({});
-
-    // const handleDoctorChange = (e) => {
-    //     const name = e.target.name;
-    //     const value = e.target.value;
-
-    //     setDoctor((v) => ({ ...v, [name]: value }));
-    // };
-
-    // const handleDoctorSubmit = (e) => {
-    //     e.preventDefault();
-    //     createNewDoctor(doctor);
-    // };
 
     const AllDoctors = () => {
         return (
@@ -49,7 +43,21 @@ function AdminDoctor() {
                         <td className="px-6 py-4">{d.schedule}</td>
                         <td>
                             <span className="flex justify-center gap-4">
-                                <PencilIcon className="w-5 h-5" />
+                                <button
+                                    onClick={() => {
+                                        setDoctor({
+                                            _id: d._id,
+                                            firstname: d.firstname,
+                                            lastname: d.lastname,
+                                            email: d.email,
+                                            password: "",
+                                        });
+                                        setIsEdit(true);
+                                        setIsHidden(false);
+                                    }}
+                                >
+                                    <PencilIcon className="w-5 h-5" />
+                                </button>
                                 <button
                                     onClick={() => handleDeleteDoctor(d._id)}
                                 >
@@ -81,7 +89,13 @@ function AdminDoctor() {
             <h1 className="mx-3 my-5">Admin Doctor page</h1>
             <div className="mx-3">
                 <div className="px-3 flex justify-between">
-                    <button className="py-2 px-4 bg-blue-300 rounded-md mb-5">
+                    <button
+                        onClick={() => {
+                            setIsEdit(false);
+                            setIsHidden(false);
+                        }}
+                        className="py-2 px-4 bg-blue-300 hover:bg-blue-500 rounded-md mb-5"
+                    >
                         Add Doctor
                     </button>
                     <Link
@@ -91,6 +105,15 @@ function AdminDoctor() {
                         Back
                     </Link>
                 </div>
+
+                <NewDoctor
+                    isHidden={isHidden}
+                    setIsHidden={setIsHidden}
+                    isEdit={isEdit}
+                    doctor={doctor}
+                    setDoctor={setDoctor}
+                    setDoctors={setDoctors}
+                />
 
                 <div className="overflow-x-scroll">
                     <table className="w-full text-sm text-gray-500">
@@ -122,63 +145,6 @@ function AdminDoctor() {
             </div>
         </>
     );
-
-    // return (
-    //     <>
-    //         <h1>Doctor</h1>
-
-    //         <div>
-    //             <h2>create new doctor</h2>
-    //             <form onSubmit={handleDoctorSubmit}>
-    //                 <div>
-    //                     first name
-    //                     <input
-    //                         type="text"
-    //                         name="firstname"
-    //                         value={doctor.firstname}
-    //                         onChange={handleDoctorChange}
-    //                     />
-    //                 </div>
-    //                 <div>
-    //                     last name
-    //                     <input
-    //                         type="text"
-    //                         name="lastname"
-    //                         value={doctor.lastname}
-    //                         onChange={handleDoctorChange}
-    //                     />
-    //                 </div>
-    //                 <div>
-    //                     email
-    //                     <input
-    //                         type="email"
-    //                         name="email"
-    //                         value={doctor.email}
-    //                         onChange={handleDoctorChange}
-    //                     />
-    //                 </div>
-    //                 <div>
-    //                     password
-    //                     <input
-    //                         type="password"
-    //                         name="password"
-    //                         vlaue={doctor.password}
-    //                         onChange={handleDoctorChange}
-    //                     />
-    //                 </div>
-    //                 <div>
-    //                     specialization
-    //                     <input
-    //                         type="text"
-    //                         name="specialization"
-    //                         value={doctor.specialization}
-    //                         onChange={handleDoctorChange}
-    //                     />
-    //                 </div>
-    //             </form>
-    //         </div>
-    //     </>
-    // );
 }
 
 export default AdminDoctor;

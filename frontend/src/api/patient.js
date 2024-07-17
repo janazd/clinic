@@ -9,6 +9,7 @@ const config = {
 
 // Patients
 const createNewPatient = async (patient) => {
+    console.log(patient);
     try {
         const response = await axios.post(
             `${API_URL}/patient/`,
@@ -56,4 +57,22 @@ const deletePatient = async (id) => {
     }
 };
 
-export { createNewPatient, getPatientById, getAllPatients, deletePatient };
+const updatePatient = async (patient) => {
+    try {
+        console.log(patient);
+        // const response = await axios.put(`${API_URL}/patient/${id}`, config);
+
+        // return { status: response.status, data: response.data };
+    } catch (err) {
+        console.error(err);
+        return err.message;
+    }
+};
+
+export {
+    createNewPatient,
+    getPatientById,
+    getAllPatients,
+    deletePatient,
+    updatePatient,
+};

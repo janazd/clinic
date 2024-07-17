@@ -37,7 +37,8 @@ function AdminAppointment() {
                             {a.service?.name} ({a.service?.category})
                         </td>
                         <td className="px-6 py-4">
-                            {new Date(a.date).toDateString()} {a.timeSlot}
+                            {new Date(a.date).toDateString()} <br />
+                            {a.timeSlot}
                         </td>
                         <td className="px-6 py-4">{a.status}</td>
                         <td>
