@@ -17,9 +17,15 @@ const AppointmentSchema = new Schema(
         },
         date: {
             type: Date,
+            required: true,
         },
-        timeSlot: {
+        startTime: {
             type: String,
+            required: true,
+        },
+        endTime: {
+            type: String,
+            required: true,
         },
         reason: {
             type: String,

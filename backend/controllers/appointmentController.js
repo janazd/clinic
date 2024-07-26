@@ -3,8 +3,8 @@ const Appointment = require("../models/Appointment");
 exports.getAllAppointments = async (req, res) => {
     try {
         const appointments = await Appointment.find()
-            .populate("pid")
-            .populate("doc_id")
+            .populate({ path: "pid", populate: { path: "user" } })
+            .populate({ path: "doc_id", populate: { path: "user" } })
             .populate("service");
         res.json(appointments);
     } catch (err) {
@@ -16,8 +16,8 @@ exports.getAllAppointments = async (req, res) => {
 exports.getAppointmentById = async (req, res) => {
     try {
         const appointment = await Appointment.findById(req.params.id)
-            .populate("pid")
-            .populate("doc_id")
+            .populate({ path: "pid", populate: { path: "user" } })
+            .populate({ path: "doc_id", populate: { path: "user" } })
             .populate("service");
         if (!appointment) {
             return res.status(404).json({ message: "Appointment not found" });
@@ -34,8 +34,8 @@ exports.getAppointmentsByDoctor = async (req, res) => {
 
     try {
         const appointments = await Appointment.find({ doc_id: doctorId })
-            .populate("pid")
-            .populate("doc_id")
+            .populate({ path: "pid", populate: { path: "user" } })
+            .populate({ path: "doc_id", populate: { path: "user" } })
             .populate("service");
         if (!appointments.length) {
             return res
@@ -54,8 +54,8 @@ exports.getAppointmentsByPatient = async (req, res) => {
 
     try {
         const appointments = await Appointment.find({ pid: patientId })
-            .populate("pid")
-            .populate("doc_id")
+            .populate({ path: "pid", populate: { path: "user" } })
+            .populate({ path: "doc_id", populate: { path: "user" } })
             .populate("service");
         if (!appointments.length) {
             return res
@@ -70,7 +70,13 @@ exports.getAppointmentsByPatient = async (req, res) => {
 };
 
 exports.createAppointment = async (req, res) => {
-    if (!req.body.pid || !req.body.doc_id || !req.body.date) {
+    if (
+        !req.body.pid ||
+        !req.body.doc_id ||
+        !req.body.date ||
+        !req.body.startTime ||
+        !req.body.endTime
+    ) {
         return res.status(400).json({ message: "Missing required fields" });
     }
 
@@ -80,11 +86,6 @@ exports.createAppointment = async (req, res) => {
         res.status(201).json(savedAppointment);
     } catch (err) {
         console.error(err);
-        if (err.name === "MongoError" && err.kind === "ObjectId") {
-            return res
-                .status(400)
-                .json({ message: "Invalid patient or doctor reference" });
-        }
         res.status(500).json({ message: "Server Error" });
     }
 };
