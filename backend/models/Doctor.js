@@ -30,9 +30,10 @@ const DoctorSchema = new Schema(
         },
         specialization: {
             type: String,
+            required: true,
         },
         schedule: {
-            type: Date,
+            type: String,
         },
     },
     { timestamps: true }

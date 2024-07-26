@@ -30,7 +30,8 @@ exports.loginDoctor = async (req, res) => {
 };
 
 exports.addDoctor = async (req, res) => {
-    const { firstname, lastname, email, password, schedule } = req.body;
+    const { firstname, lastname, email, password, schedule, specialization } =
+        req.body;
 
     try {
         const existingDoctor = await Doctor.findOne({ email });
@@ -47,6 +48,7 @@ exports.addDoctor = async (req, res) => {
             email,
             password: await bcrypt.hash(password, salt),
             schedule,
+            specialization,
         });
 
         const newDoctor = await doctor.save();
@@ -56,6 +58,8 @@ exports.addDoctor = async (req, res) => {
             firstname,
             lastname,
             email,
+            schedule,
+            specialization,
             createdAt: newDoctor.createdAt,
         });
     } catch (error) {

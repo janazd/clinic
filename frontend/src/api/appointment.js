@@ -7,6 +7,40 @@ const config = {
     },
 };
 
+const adminCreateNewAppointment = async (appointment) => {
+    const pid = appointment.pid;
+    const doc_id = appointment.doc_id;
+    const service = appointment.service;
+    const date = appointment.date;
+    const timeSlot = appointment.timeSlot;
+    const reason = appointment.reason;
+
+    console.log({
+        pid,
+        doc_id,
+        service,
+        date,
+        timeSlot,
+        reason,
+    });
+
+    const response = await axios.post(
+        `${API_URL}/appointment/`,
+        {
+            pid,
+            doc_id,
+            service,
+            date,
+            timeSlot,
+            reason,
+        },
+        config
+    );
+
+    console.log(response);
+    return response;
+};
+
 const createNewAppointment = async (appointment, pid) => {
     const doc_id = appointment.service.doc_id;
     const service = appointment.service._id;
@@ -63,4 +97,25 @@ const deleteAppointment = async (id) => {
     }
 };
 
-export { createNewAppointment, getAllAppointments, deleteAppointment };
+const updateAppointment = async (id, appointment) => {
+    try {
+        const response = await axios.put(
+            `${API_URL}/appointment/${id}`,
+            appointment,
+            config
+        );
+
+        return { status: response.status, data: response.data };
+    } catch (err) {
+        console.error(err);
+        return err.message;
+    }
+};
+
+export {
+    createNewAppointment,
+    adminCreateNewAppointment,
+    getAllAppointments,
+    deleteAppointment,
+    updateAppointment,
+};

@@ -2,16 +2,27 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 
-import {
-    createNewAppointment,
-    getAllAppointments,
-    deleteAppointment,
-} from "../../api/appointment";
+import { getAllAppointments, deleteAppointment } from "../../api/appointment";
+
+import NewAppointment from "../../components/NewAppointment";
 
 import { TrashIcon, PencilIcon } from "../../assets";
 
+const APPOINTMENT = {
+    pid: "",
+    doc_id: "",
+    service: "",
+    date: "",
+    timeSlot: "",
+    reason: "",
+    status: "",
+};
+
 function AdminAppointment() {
     const [appointments, setAppointments] = useState([]);
+    const [appointment, setAppointment] = useState(APPOINTMENT);
+    const [isHidden, setIsHidden] = useState(true);
+    const [isEdit, setIsEdit] = useState(false);
 
     useEffect(() => {
         async function fetchAppointments() {
@@ -43,7 +54,23 @@ function AdminAppointment() {
                         <td className="px-6 py-4">{a.status}</td>
                         <td>
                             <span className="flex justify-center gap-4">
-                                <PencilIcon className="w-5 h-5" />
+                                <button
+                                    onClick={() => {
+                                        setAppointment({
+                                            pid: a.pid?._id,
+                                            doc_id: a.doc_id?._id,
+                                            service: a.service,
+                                            date: a.date,
+                                            timeSlot: a.timeSlot,
+                                            reason: a.reason,
+                                            status: a.status,
+                                        });
+                                        setIsEdit(true);
+                                        setIsHidden(false);
+                                    }}
+                                >
+                                    <PencilIcon className="w-5 h-5" />
+                                </button>
                                 <button
                                     onClick={() =>
                                         handleDeleteAppointment(a._id)
@@ -77,7 +104,13 @@ function AdminAppointment() {
             <h1 className="mx-3 my-5">Admin Appointment page</h1>
             <div className="mx-3">
                 <div className="px-3 flex justify-between">
-                    <button className="py-2 px-4 bg-blue-300 rounded-md mb-5">
+                    <button
+                        className="py-2 px-4 bg-blue-300 rounded-md mb-5"
+                        onClick={() => {
+                            setIsEdit(false);
+                            setIsHidden(false);
+                        }}
+                    >
                         Add Appointment
                     </button>
                     <Link
@@ -87,6 +120,15 @@ function AdminAppointment() {
                         Back
                     </Link>
                 </div>
+
+                <NewAppointment
+                    isHidden={isHidden}
+                    setIsHidden={setIsHidden}
+                    isEdit={isEdit}
+                    appointment={appointment}
+                    setAppointment={setAppointment}
+                    setAppointments={setAppointments}
+                />
 
                 <div className="overflow-x-scroll">
                     <table className="w-full text-sm text-gray-500">
