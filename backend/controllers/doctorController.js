@@ -1,39 +1,30 @@
 const bcrypt = require("bcrypt");
 const Doctor = require("../models/Doctor");
-const jwt = require("jsonwebtoken");
-
-exports.loginDoctor = async (req, res) => {
-    try {
-        const { email, password } = req.body;
-        const doctor = await Doctor.findOne({ email });
-
-        if (!doctor) {
-            return res.status(400).json({ message: "Invalid credentials" });
-        }
-
-        const isPasswordMatch = await bcrypt.compare(password, doctor.password);
-
-        if (!isPasswordMatch) {
-            return res.status(400).json({ message: "Invalid credentials" });
-        }
-
-        const payload = { _id: doctor._id };
-        const token = jwt.sign(payload, process.env.JWT_SECRET, {
-            expiresIn: "1h",
-        });
-
-        res.status(200).json({ token });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Server Error" });
-    }
-};
+const User = require("../models/User");
 
 exports.addDoctor = async (req, res) => {
-    const { firstname, lastname, email, password, schedule, specialization } =
-        req.body;
-
     try {
+        if (
+            !req.body.firstname ||
+            !req.body.lastname ||
+            !req.body.phone ||
+            !req.body.email ||
+            !req.body.password
+        ) {
+            return res.status(400).json({ message: "Missing required fields" });
+        }
+        const {
+            firstname,
+            lastname,
+            gender,
+            yob,
+            phone,
+            email,
+            password,
+            schedule,
+            specialization,
+        } = req.body;
+
         const existingDoctor = await Doctor.findOne({ email });
 
         if (existingDoctor) {
@@ -42,11 +33,21 @@ exports.addDoctor = async (req, res) => {
 
         const salt = await bcrypt.genSalt(10);
 
-        const doctor = new Doctor({
+        const user = new User({
             firstname,
             lastname,
+            gender,
+            yob,
+            phone,
             email,
             password: await bcrypt.hash(password, salt),
+            role: "Doctor",
+        });
+
+        const newUser = await user.save();
+
+        const doctor = new Doctor({
+            user: newUser._id,
             schedule,
             specialization,
         });
@@ -67,9 +68,13 @@ exports.addDoctor = async (req, res) => {
         res.status(500).json({ message: "Server Error" });
     }
 };
+
 exports.getAllDoctors = async (req, res) => {
     try {
-        const doctors = await Doctor.find().select("-password");
+        const doctors = await Doctor.find().populate({
+            path: "user",
+            select: "-password",
+        });
         res.json(doctors);
     } catch (err) {
         console.error(err);
@@ -79,7 +84,10 @@ exports.getAllDoctors = async (req, res) => {
 
 exports.getDoctorById = async (req, res) => {
     try {
-        const doctor = await Doctor.findById(req.params.id).select("-password");
+        const doctor = await Doctor.findById(req.params.id).populate({
+            path: "user",
+            select: "-password",
+        });
         if (!doctor) {
             return res.status(404).json({ message: "Doctor not found" });
         }
@@ -92,23 +100,32 @@ exports.getDoctorById = async (req, res) => {
 
 exports.updateDoctor = async (req, res) => {
     try {
+        const { firstname, lastname, phone, specialization, schedule } =
+            req.body;
+
         const doctor = await Doctor.findById(req.params.id);
+        const user = await User.findById(doctor.user._id);
 
         if (!doctor) {
             return res.status(404).json({ message: "Doctor not found" });
         }
 
-        doctor.firstname = req.body.firstname || doctor.firstname;
-        doctor.lastname = req.body.lastname || doctor.lastname;
-
-        if (req.body.password) {
-            const salt = await bcrypt.genSalt(10);
-            doctor.password = await bcrypt.hash(req.body.password, salt);
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
         }
 
-        const updatedDoctor = await doctor.save();
+        await User.findByIdAndUpdate(doctor.user._id, {
+            firstname: firstname || user.firstname,
+            lastname: lastname || user.lastname,
+            phone: phone || user.phone,
+        });
 
-        res.json(updatedDoctor);
+        await Doctor.findByIdAndUpdate(doctor.user._id, {
+            specialization: specialization || doctor.specialization,
+            schedule: schedule || doctor.schedule,
+        });
+
+        res.json({ message: "Doctor Updated" });
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: "Server Error" });
@@ -117,10 +134,16 @@ exports.updateDoctor = async (req, res) => {
 
 exports.deleteDoctor = async (req, res) => {
     try {
-        const doctor = await Doctor.findByIdAndDelete(req.params.id);
+        const doctor = await Doctor.findById(req.params.id);
         if (!doctor) {
             return res.status(404).json({ message: "Doctor not found" });
         }
+
+        const user_id = doctor.user._id;
+
+        await Doctor.findByIdAndDelete(req.params.id);
+        await User.findByIdAndDelete(user_id);
+
         res.json({ message: "Doctor deleted successfully" });
     } catch (err) {
         console.error(err);

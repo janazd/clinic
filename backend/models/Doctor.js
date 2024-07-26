@@ -3,30 +3,9 @@ const Schema = mongoose.Schema;
 
 const DoctorSchema = new Schema(
     {
-        firstname: {
-            type: String,
-            required: true,
-        },
-        lastname: {
-            type: String,
-            required: true,
-        },
-        gender: {
-            type: String,
-            enum: ["male", "female"],
-        },
-        email: {
-            type: String,
-            unique: true,
-            required: true,
-            match: [
-                /^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/,
-                "Invalid email",
-            ],
-        },
-        password: {
-            type: String,
-            required: true,
+        user: {
+            type: Schema.Types.ObjectId,
+            ref: "User",
         },
         specialization: {
             type: String,

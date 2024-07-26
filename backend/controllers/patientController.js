@@ -1,22 +1,30 @@
 const bcrypt = require("bcrypt");
 const Patient = require("../models/Patient");
+const User = require("../models/User");
 
 exports.addPatient = async (req, res) => {
     try {
-        if (!req.body.firstname || !req.body.lastname || !req.body.phone) {
+        if (
+            !req.body.firstname ||
+            !req.body.lastname ||
+            !req.body.phone ||
+            !req.body.email ||
+            !req.body.password
+        ) {
             return res.status(400).json({ message: "Missing required fields" });
         }
         const { firstname, lastname, gender, yob, phone, email, password } =
             req.body;
 
-        const existingPatient = await Patient.findOne({ phone });
+        const existingPatient = await Patient.findOne({ email });
+
         if (existingPatient) {
             return res.status(400).json({ message: "Patient already exists" });
         }
 
         const salt = await bcrypt.genSalt(10);
 
-        const patient = new Patient({
+        const user = new User({
             firstname,
             lastname,
             gender,
@@ -24,18 +32,23 @@ exports.addPatient = async (req, res) => {
             phone,
             email,
             password: await bcrypt.hash(password, salt),
+            role: "Patient",
         });
-        patient.save();
+
+        const newUser = await user.save();
+
+        const patient = new Patient({
+            user: newUser._id,
+        });
+
+        const newPatient = await patient.save();
 
         return res.status(201).json({
-            _id: patient._id,
+            _id: newPatient._id,
             firstname,
             lastname,
-            gender,
-            yob,
             email,
-            phone,
-            createdAt: patient.createdAt,
+            createdAt: newPatient.createdAt,
         });
     } catch (error) {
         console.error(error);
@@ -45,7 +58,10 @@ exports.addPatient = async (req, res) => {
 
 exports.getAllPatients = async (req, res) => {
     try {
-        const patients = await Patient.find().select("-password");
+        const patients = await Patient.find().populate({
+            path: "user",
+            select: "-password",
+        });
         res.json(patients);
     } catch (err) {
         console.error(err);
@@ -55,9 +71,10 @@ exports.getAllPatients = async (req, res) => {
 
 exports.getPatientById = async (req, res) => {
     try {
-        const patient = await Patient.findById(req.params.id).select(
-            "-password"
-        );
+        const patient = await Patient.findById(req.params.id).populate({
+            path: "user",
+            select: "-password",
+        });
         if (!patient) {
             return res.status(404).json({ message: "Patient not found" });
         }
@@ -68,50 +85,20 @@ exports.getPatientById = async (req, res) => {
     }
 };
 
-// exports.createPatient = async (req, res) => {
-//     if (!req.body.firstname || !req.body.lastname || !req.body.phone) {
-//         return res.status(400).json({ message: "Missing required fields" });
-//     }
-
-//     try {
-//         const newPatient = new Patient(req.body);
-//         const savedPatient = await newPatient.save();
-//         res.status(201).json(savedPatient);
-//     } catch (err) {
-//         console.error(err);
-//         if (err.code && err.code === 11000) {
-//             const duplicateField = Object.keys(err.keyValue)[0];
-//             return res
-//                 .status(400)
-//                 .json({ message: `Duplicate ${duplicateField}` });
-//         }
-//         res.status(500).json({ message: "Server Error" });
-//     }
-// };
-
 exports.updatePatient = async (req, res) => {
-    const updates = Object.keys(req.body);
-    const allowedUpdates = ["firstname", "lastname", "phone"];
-    const isValidUpdate = updates.every((update) =>
-        allowedUpdates.includes(update)
-    );
-
-    if (!isValidUpdate) {
-        return res.status(400).json({ message: "Invalid update fields" });
-    }
-
     try {
-        const patient = await Patient.findByIdAndUpdate(
-            req.params.id,
-            req.body,
-            {
-                new: true,
-            }
-        );
-        if (!patient) {
-            return res.status(404).json({ message: "Patient not found" });
-        }
-        res.json(patient);
+        const { firstname, lastname, phone } = req.body;
+
+        const patient = await Patient.findById(req.params.id);
+        const user = await User.findById(patient.user._id);
+
+        const updatedUser = await User.findByIdAndUpdate(patient.user._id, {
+            firstname: firstname || user.firstname,
+            lastname: lastname || user.lastname,
+            phone: phone || user.phone,
+        });
+
+        res.json({ message: "Patient Updated" });
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: "Server Error" });
@@ -120,10 +107,16 @@ exports.updatePatient = async (req, res) => {
 
 exports.deletePatient = async (req, res) => {
     try {
-        const patient = await Patient.findByIdAndDelete(req.params.id);
+        const patient = await Patient.findById(req.params.id);
         if (!patient) {
             return res.status(404).json({ message: "Patient not found" });
         }
+
+        const user_id = patient.user._id;
+
+        await Patient.findByIdAndDelete(req.params.id);
+        await User.findByIdAndDelete(user_id);
+
         res.json({ message: "Patient deleted successfully" });
     } catch (err) {
         console.error(err);
