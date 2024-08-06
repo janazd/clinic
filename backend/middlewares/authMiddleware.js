@@ -70,3 +70,18 @@ exports.checkDoctor = async (req, res, next) => {
         next(new Error("Not authorized, token failed"));
     }
 };
+
+exports.checkAdmin = async (req, res, next) => {
+    try {
+        const admin = Admin.findById(req.user._id);
+        if (req.user.user.role === "Admin" && admin) {
+            return next();
+        }
+
+        res.status(401);
+        next(new Error("Not authorized, token failed"));
+    } catch (error) {
+        res.status(401);
+        next(new Error("Not authorized, token failed"));
+    }
+};

@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const Patient = require("../models/Patient");
 const User = require("../models/User");
+const Role = require("../models/Role");
 
 exports.addPatient = async (req, res) => {
     try {
@@ -23,6 +24,9 @@ exports.addPatient = async (req, res) => {
         }
 
         const salt = await bcrypt.genSalt(10);
+        const patientRole = await Role.findOne({ role: "Patient" });
+
+        console.log(patientRole);
 
         const user = new User({
             firstname,
@@ -32,7 +36,7 @@ exports.addPatient = async (req, res) => {
             phone,
             email,
             password: await bcrypt.hash(password, salt),
-            role: "Patient",
+            role: patientRole._id,
         });
 
         const newUser = await user.save();
@@ -59,7 +63,7 @@ exports.addPatient = async (req, res) => {
 exports.getAllPatients = async (req, res) => {
     try {
         const patients = await Patient.find().populate({
-            path: "user",
+            path: "user role",
             select: "-password",
         });
         res.json(patients);
@@ -72,7 +76,7 @@ exports.getAllPatients = async (req, res) => {
 exports.getPatientById = async (req, res) => {
     try {
         const patient = await Patient.findById(req.params.id).populate({
-            path: "user",
+            path: "user role",
             select: "-password",
         });
         if (!patient) {
@@ -92,7 +96,7 @@ exports.updatePatient = async (req, res) => {
         const patient = await Patient.findById(req.params.id);
         const user = await User.findById(patient.user._id);
 
-        const updatedUser = await User.findByIdAndUpdate(patient.user._id, {
+        await User.findByIdAndUpdate(patient.user._id, {
             firstname: firstname || user.firstname,
             lastname: lastname || user.lastname,
             phone: phone || user.phone,

@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const Doctor = require("../models/Doctor");
 const User = require("../models/User");
+const Role = require("../models/Role");
 
 exports.addDoctor = async (req, res) => {
     try {
@@ -32,6 +33,7 @@ exports.addDoctor = async (req, res) => {
         }
 
         const salt = await bcrypt.genSalt(10);
+        const doctorRole = await Role.findOne({ role: "Doctor" });
 
         const user = new User({
             firstname,
@@ -41,7 +43,7 @@ exports.addDoctor = async (req, res) => {
             phone,
             email,
             password: await bcrypt.hash(password, salt),
-            role: "Doctor",
+            role: doctorRole._id,
         });
 
         const newUser = await user.save();
@@ -72,7 +74,7 @@ exports.addDoctor = async (req, res) => {
 exports.getAllDoctors = async (req, res) => {
     try {
         const doctors = await Doctor.find().populate({
-            path: "user",
+            path: "user role",
             select: "-password",
         });
         res.json(doctors);
